@@ -1,0 +1,78 @@
+
+{% extends 'user/base.html' %}
+{% block title %}
+User Home Page
+{% endblock title %}
+
+{% block body %}
+{% comment %} this is main need to be used here {% endcomment %}
+<div class="col-sm-9 col-sm-offset-3 col-lg-10 col-lg-offset-2 main">
+		<div class="row">
+			<ol class="breadcrumb">
+				<li><a href="/user">
+					<em class="fa fa-home"></em>
+				</a></li>
+				<li class="active">Dashboard</li>
+			</ol>
+		</div><!--/.row-->
+		
+		
+		<div class="row">
+			<div class="col-lg-12">
+				<h1 class="page-header">User Profile</h1>
+			</div>
+		</div><!--/.row-->
+		
+
+		<div class="row ">
+		<div class="container  rounded bg-white mt-5 mb-5">
+    <div class="row">
+        <div class="col-md-2 border-right">
+            <div class="d-flex flex-column align-items-center text-center p-3 py-5"><img class="img-thumbnail" src="data:image/png;base64,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"
+             width="150px" height="160px">
+			{% comment %} <span class="font-weight-bold">Amelly</span><span class="text-black-50">amelly12@bbb.com</span><span> </span> {% endcomment %}
+			</div>
+			<br>
+        <div class="mt-5 text-center"><button class="btn btn-primary profile-button" type="button">Change Image</button></div>
+		</div>
+        <div class="col-md-9">
+            <div class="p-3 py-5">
+                <div class="d-flex justify-content-between align-items-center mb-3">
+                    <h4 class="text-right">Profile Settings</h4>
+                </div>
+                <div class="row mt-2">
+                    <div class="col-md-6"><label class="labels">Name</label><input type="text" class="form-control" placeholder="first name" value=""></div>
+                    <div class="col-md-6"><label class="labels">Surname</label><input type="text" class="form-control" value="" placeholder="surname"></div>
+                </div>
+                <div class="row mt-3">
+                    <div class="col-md-12"><label class="labels">PhoneNumber</label><input type="text" class="form-control" placeholder="enter phone number" value=""></div>
+                   <div class="col-md-12"><label class="labels">Address</label><input type="text" class="form-control" placeholder="enter address" value=""></div>
+                    <div class="col-md-12"><label class="labels">Email ID</label><input type="text" class="form-control" placeholder="enter email id" value=""></div>
+                   <div class="col-md-12"><label class="labels">Education</label><input type="text" class="form-control" placeholder="education" value=""></div>
+                </div>
+            
+                <div class="row mt-3">
+                    <div class="col-md-6"><label class="labels">Country</label><input type="text" class="form-control" placeholder="country" value=""></div>
+                    <div class="col-md-6"><label class="labels">State/Region</label><input type="text" class="form-control" value="" placeholder="state"></div>
+                </div>
+				<br>
+                <div class="mt-5 text-center"><button class="btn btn-primary profile-button" type="button">Save Profile</button></div>
+            <br><br>
+			</div>
+        </div>
+        {% comment %} <div class="col-md-4">
+            <div class="p-3 py-5">
+                <div class="d-flex justify-content-between align-items-center experience"><span>Edit Experience</span><span class="border px-3 p-1 add-experience"><i class="fa fa-plus"></i>&nbsp;Experience</span></div><br>
+                <div class="col-md-12"><label class="labels">Experience in Designing</label><input type="text" class="form-control" placeholder="experience" value=""></div> <br>
+                <div class="col-md-12"><label class="labels">Additional Details</label><input type="text" class="form-control" placeholder="additional details" value=""></div>
+            </div>
+        </div> {% endcomment %}
+    </div>
+</div>
+</div>
+</div>
+
+		</div><!--/.row-->
+	</div>	<!--/.main-->
+	<br>
+{% endblock body %}

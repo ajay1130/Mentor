@@ -1,0 +1,167 @@
+
+{% extends 'base.html' %}
+
+{% block title %}
+About us
+{% endblock title %}
+
+{% block body %}
+<!--tab start here-->
+<!--about start here-->
+<div class="about">
+	<div class="container">
+		<div class="about-main">
+			<div class="about-top">
+				<h2>About Us</h2>
+				{% comment %} <p>Sed ut perspiciatis unde omnis iste natus error sit voluptatem accusantium doloremque laudantium, totam rem.</p> {% endcomment %}
+			</div>
+			<div class="about-bottom">
+				<div class="col-md-6 about-bott-left">
+					<img src="static/images/ab.jpg" alt="" class="img-responsive">
+				</div>
+				<div class="col-md-6 about-bott-right">
+					 <!-- Elliptic -->
+					  <div class="colorful-tab-wrapper" id="colorful-elliptic">
+					    <ul class="colorful-tab-menu">
+					      <li class="colorful-tab-menu-item active" tab-color="#C9003C"><a href="#elp-0">About</a></li>
+					      {% comment %} <li class="colorful-tab-menu-item" tab-color="#00A566"><a href="#elp-1">Skills</a></li>
+					      <li class="colorful-tab-menu-item" tab-color="#8021D3"><a href="#elp-2">Details</a></li>
+					      <li class="colorful-tab-menu-item" tab-color="#E54400"><a href="#elp-3">History</a></li> {% endcomment %}
+					     
+					    </ul>
+					    <div class="colorful-tab-container">  
+					      <div class="colorful-tab-content active" id="elp-0">  
+					        <p>This website allows users to interact with each other students so that they can share each other's knowledge they can share materials like pdf,notes,videos etc.</p>
+					      </div>
+					      {% comment %} <div class="colorful-tab-content" id="elp-1"> 					        
+					          <ul>
+					          	<li>Phasellus porttitor a ipsum sit amet posuere.</li>
+					          	<li>Nunc id justo pellentesque ligula gravida.</li>
+					          	<li>Maecenas tempor a lacus nec lacinia.</li>
+					          	<li>Maecenas tempor a lacus nec lacinia.</li>
+					          	<li>ullamcorper felis, in laoreet nisl.</li>					          	
+					          </ul>
+					      </div>
+					      <div class="colorful-tab-content" id="elp-2"> 
+					        <p>Aliquam sodales viverra interdum. In sapien dolor, convallis vel neque in, egestas scelerisque nibh. Mauris ut est velit. Donec lacinia metus facilisis, gravida nisi sit amet, sodales erat. Nunc semper ut dolor placerat ultricies. Lorem ipsum dolor sit amet, consectetur adipiscing elit. Fusce vehicula malesuada metus, eu accumsan orci aliquam a. Nam congue interdum dictum.</p>
+					      </div>
+					      <div class="colorful-tab-content" id="elp-3"> 
+					        <p>Nulla condimentum eros nec erat faucibus, et ultricies ipsum porttitor. Mauris vel cursus metus, eget imperdiet magna. Integer quis mi auctor, eleifend lorem eu, ullamcorper augue. Curabitur id vehicula libero. Duis condimentum sapien turpis, vel porttitor arcu pulvinar ut. Donec ut enim eu augue iaculis efficitur sit amet at purus. Donec elementum mauris sit amet neque.</p>
+					      </div> {% endcomment %}
+					      
+					    </div>
+					  </div>
+					  <!-- Elliptic -->
+				</div>
+				<div class="clearfix"> </div>
+			</div>
+		</div>
+	</div>
+</div>
+<!--about end here-->
+<!--about layer1-->
+{% comment %} <div class="about-layer1">
+	<div class="container">
+		<div class="about-agile">
+			<h4>Duis aute irure dolor in reprehenderit </h4>
+			<p>Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.</p>
+			<p> </p>
+		</div>
+	</div>
+</div>
+<!--about layer1-->
+<!--team start here-->
+<div class="team">
+	<div class="container">
+		<div class="team-main">
+			  <div class="team-top">
+			  	<h3>Our Staff</h3>
+			  </div>
+              <div class="team-bottom">
+                <div class="col-md-3 agileinfo">
+                  <!-- normal -->
+                  <div class="ih-item circle effect13 bottom_to_top"><a href="#">
+                      <div class="img"><img src="static/images/t1.jpg" alt="img"></div>
+                      <div class="info"> 
+                        <div class="info-back">
+                          <h3>Smith</h3>
+                          <p>Description goes here</p>
+                          
+
+                        </div>
+                      </div></a></div>
+                  <!-- end normal -->
+                  <div class="team-icons">		        	  
+			        	  <ul>
+			        	  	<li><a href="#" class="fa"> </a></li>
+			        	  	<li><a href="#" class="tw"> </a></li>
+			        	  	<li><a href="#" class="g"> </a></li>
+			        	  </ul>
+		             </div>
+                </div>
+                <div class="col-md-3 agileinfo">
+                  <!-- normal -->
+                  <div class="ih-item circle effect13 bottom_to_top"><a href="#">
+                      <div class="img"><img src="static/images/t2.jpg" alt="img"></div>
+                      <div class="info">
+                        <div class="info-back">
+                          <h3>Daneal</h3>
+                          <p>Description goes here</p>
+                        </div>
+                      </div></a></div>
+                  <!-- end normal -->
+                  <div class="team-icons">		        	  
+			        	  <ul>
+			        	  	<li><a href="#" class="fa"> </a></li>
+			        	  	<li><a href="#" class="tw"> </a></li>
+			        	  	<li><a href="#" class="g"> </a></li>
+			        	  </ul>
+		             </div>
+                </div>
+                <div class="col-md-3 agileinfo">
+                  <!-- normal -->
+                  <div class="ih-item circle effect13 bottom_to_top"><a href="#">
+                      <div class="img"><img src="static/images/t3.jpg" alt="img"></div>
+                      <div class="info">
+                        <div class="info-back">
+                          <h3>Mac</h3>
+                          <p>Description goes here</p>
+                        </div>
+                      </div></a></div>
+                  <!-- end normal -->
+                  <div class="team-icons">		        	  
+			        	  <ul>
+			        	  	<li><a href="#" class="fa"> </a></li>
+			        	  	<li><a href="#" class="tw"> </a></li>
+			        	  	<li><a href="#" class="g"> </a></li>
+			        	  </ul>
+		             </div>
+                </div>
+                <div class="col-md-3 agileinfo">
+                  <!-- normal -->
+                  <div class="ih-item circle effect13 bottom_to_top"><a href="#">
+                      <div class="img"><img src="static/images/t4.jpg" alt="img"></div>
+                      <div class="info">
+                        <div class="info-back">
+                          <h3>John</h3>
+                          <p>Description goes here</p>
+                        </div>
+                      </div></a></div>
+                  <!-- end normal -->
+                  <div class="team-icons">		        	  
+			        	  <ul>
+			        	  	<li><a href="#" class="fa"> </a></li>
+			        	  	<li><a href="#" class="tw"> </a></li>
+			        	  	<li><a href="#" class="g"> </a></li>
+			        	  </ul>
+		             </div>
+                </div>
+                
+              </div>
+              <!-- end Bottom to top -->
+		</div>
+	</div>
+</div>	 {% endcomment %}
+<!--team end here-->
+
+{% endblock body %}
