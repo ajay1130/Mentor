@@ -5,9 +5,18 @@ Contact us
 {% endblock title %}
 {% block body %}
 <!--contact start here-->
+{% if messages %}
+ {% for message in messages %}
+<div class="alert alert-{{ message.tags }} my-0 py-0" role="alert">
+ {{ message }}
+</div>
+ {% endfor %}
+{% endif %}
+
 <div class="contact">
 	<div class="container">
 		<div class="contact-main">	
+		
 			<div class="contact-top">
 				<h2>Contact</h2>
 				<p>Send your questions and feedback.</p>
@@ -25,8 +34,10 @@ Contact us
 			 	<div class="col-md-6 contact-block-left">
 				 	<form action="/contact" method="post">
 					 {% csrf_token %}
-				 		<input type="text" placeholder="Name" required="" name="Name">
-	                    <input type="text" class="email" placeholder="Email" name="Email" required="">
+				 		<input type="text" placeholder="Name" required="" name="Name" required="">
+	                    <input type="text" class="email" placeholder="Email" name="Email" required=""
+						pattern="[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,4}$"
+						title="Email id must be valid">
 	                    <input type="text" class="subject" placeholder="Subject" name="Subject" required="">               
 	                    <textarea placeholder="Message" name="message" required=""></textarea>
 	                    <input type="submit" value="Send">

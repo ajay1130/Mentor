@@ -25,39 +25,102 @@ User Home Page
 		
 
 		<div class="row ">
+
+        {% if msg%}
+					<div class="alert {{ col }}">{{ msg }}</div>
+						{% endif %}	
 		<div class="container  rounded bg-white mt-5 mb-5">
     <div class="row">
+      <form action="/userprofile" method="post" enctype="multipart/form-data"  onsubmit="return checkData()">
+					{% csrf_token %}
         <div class="col-md-2 border-right">
-            <div class="d-flex flex-column align-items-center text-center p-3 py-5"><img class="img-thumbnail" src="data:image/png;base64,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"
+            <div class="d-flex flex-column align-items-center text-center p-3 py-5"><img class="img-thumbnail" src="{{ request.user.profile.image.url }}"
              width="150px" height="160px">
 			{% comment %} <span class="font-weight-bold">Amelly</span><span class="text-black-50">amelly12@bbb.com</span><span> </span> {% endcomment %}
 			</div>
 			<br>
-        <div class="mt-5 text-center"><button class="btn btn-primary profile-button" type="button">Change Image</button></div>
+        <div class="mt-5 text-center"><input type="file" accept="image/x-png,image/gif,image/jpeg" name="userimage" class="btn btn-primary profile-button" value="Change Image" style="width:150px;"/></div>
 		</div>
         <div class="col-md-9">
+      
             <div class="p-3 py-5">
                 <div class="d-flex justify-content-between align-items-center mb-3">
                     <h4 class="text-right">Profile Settings</h4>
                 </div>
                 <div class="row mt-2">
-                    <div class="col-md-6"><label class="labels">Name</label><input type="text" class="form-control" placeholder="first name" value=""></div>
-                    <div class="col-md-6"><label class="labels">Surname</label><input type="text" class="form-control" value="" placeholder="surname"></div>
+                    <div class="col-md-4"><label class="labels">First Name</label><input type="text" class="form-control" name="fname" placeholder="first name" value="{{ request.user.first_name }}" required></div>
+                    <div class="col-md-4"><label class="labels">Last Name</label><input type="text" class="form-control" name="lname" value="{{ request.user.last_name }}" placeholder="surname" required></div>
+                <div class="col-md-4"><label class="labels">Email ID</label><input type="text" class="form-control" name="email" readonly placeholder="enter email id" value="{{ request.user.email }}" required></div>
+               
                 </div>
                 <div class="row mt-3">
-                    <div class="col-md-12"><label class="labels">PhoneNumber</label><input type="text" class="form-control" placeholder="enter phone number" value=""></div>
-                   <div class="col-md-12"><label class="labels">Address</label><input type="text" class="form-control" placeholder="enter address" value=""></div>
-                    <div class="col-md-12"><label class="labels">Email ID</label><input type="text" class="form-control" placeholder="enter email id" value=""></div>
-                   <div class="col-md-12"><label class="labels">Education</label><input type="text" class="form-control" placeholder="education" value=""></div>
+                    {% comment %} <div class="col-md-12"><label class="labels">PhoneNumber</label><input type="text" class="form-control" placeholder="enter phone number" value=""></div> {% endcomment %}
+                   {% comment %} <div class="col-md-12"><label class="labels">Address</label><input type="text" class="form-control" placeholder="enter address" value=""></div> {% endcomment %}
+                        <div class="col-md-12">
+                <label for="comment">Describe Yourself:</label>
+            <textarea class="form-control" name="bio" rows="5" id="comment" placeholder="Your bio" required>{{ request.user.profile.aboutyourself }}</textarea>
                 </div>
+                   {% comment %} <div class="col-md-12"><label class="labels">Education</label><input type="text" class="form-control" placeholder="education" value=""></div> {% endcomment %}
+                </div>
+
+                <div class="row mt-3">
+                    <div class="col-md-12"><label class="labels">College Name</label><input type="text" class="form-control" name="collegename" required placeholder="College Name" value="{{ request.user.profile.college }}"></div>
+                   
+                </div>
+
+                <input type="hidden" class="form-control" name="status"  value="{{ request.user.profile.status }}">
             
                 <div class="row mt-3">
-                    <div class="col-md-6"><label class="labels">Country</label><input type="text" class="form-control" placeholder="country" value=""></div>
+                    {% comment %} <div class="col-md-6"><label class="labels">Country</label><input type="text" class="form-control" placeholder="country" value=""></div>
                     <div class="col-md-6"><label class="labels">State/Region</label><input type="text" class="form-control" value="" placeholder="state"></div>
+                {% endcomment %}
+
+                <div class="col-md-4">
+  <label for="semester">Select Semester:</label>
+  <select class="form-control" id="semester" required name="semester">
+  <option value="0">Select</option>
+    <option value="1">1</option>
+    <option value="2">2</option>
+    <option value="3">3</option>
+    <option value="4">4</option>
+    <option value="5">5</option>
+    <option value="6">6</option>
+    <option value="7">7</option>
+    <option value="8">8</option>
+  </select>
+</div>
+
+
+ <div class="col-md-4">
+  <label for="course">Select Course:</label>
+  <select class="form-control" id="course" required name="course">
+  <option value="0">Select</option>
+    <option value="B.com">B.com</option>
+    <option value="BCA">BCA</option>
+    <option value="BBA">BBA</option>
+    <option value="B.Tech">B.Tech</option>
+    <option value="M.com">M.com</option>
+    <option value="MCA">MCA</option>
+    <option value="MBA">MBA</option>
+    <option value="M.Tech">M.Tech</option>
+  </select>
+</div>
+
+ <div class="col-md-4">
+  <label for="gender">Select Gender:</label>
+  <select class="form-control" id="gender" required name="gender">
+  <option value="0">Select</option>
+    <option value="Male">Male</option>
+    <option value="Female">Female</option>
+    {% comment %} <option value="BBA">BBA</option> {% endcomment %}
+  </select>
+</div>
+               
                 </div>
 				<br>
-                <div class="mt-5 text-center"><button class="btn btn-primary profile-button" type="button">Save Profile</button></div>
+                <div class="mt-5 text-center"><input class="btn btn-primary profile-button" type="submit" value="Save Profile"/></div>
             <br><br>
+            
 			</div>
         </div>
         {% comment %} <div class="col-md-4">
@@ -71,8 +134,43 @@ User Home Page
 </div>
 </div>
 </div>
-
+</form>
 		</div><!--/.row-->
 	</div>	<!--/.main-->
 	<br>
+
+    <script>
+function myFunction() {
+  document.getElementById("semester").value = "{{ request.user.profile.sem }}";
+  document.getElementById("course").value = "{{ request.user.profile.course }}";
+  document.getElementById("gender").value = "{{ request.user.profile.gender }}";
+
+
+}
+function checkData(){
+ var sem = document.getElementById("semester").selectedIndex;
+ var semop = document.getElementById("semester").options;
+  var course = document.getElementById("course").selectedIndex;
+  var coursop = document.getElementById("course").options;
+  var gender =document.getElementById("gender").selectedIndex;
+  var genderop =document.getElementById("gender").options;
+  if (semop[sem].index==0)
+  {
+      alert("You need to select your Semester");
+      return false;
+  }
+  if (coursop[course].index==0)
+  {
+      alert("You need to select your Course");
+      return false;
+  }
+  if (genderop[gender].index==0)
+  {
+      alert("You need to select your Gender");
+      return false;
+  }
+  return true;
+}
+myFunction()
+</script>
 {% endblock body %}

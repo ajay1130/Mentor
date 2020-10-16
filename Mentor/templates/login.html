@@ -26,18 +26,16 @@
 		});
 	   </script>
 <!-- //js -->
+
 </head>
 <body>
 	<!-- main -->
-	{% comment %} <br>
-	<br>
-	{% if messages %}
-<ul class="messages">
-    {% for message in messages %}
-    <li{% if message.tags %} class="{{ message.tags }}"{% endif %}>{{ message }}</li>
-    {% endfor %}
-</ul>
-{% endif %} {% endcomment %}
+
+
+
+<div style="margin-top:10px;font-size:30px;color:white;text-align:center; font-family: courier;">
+  <b> {{ successcode }}</b>
+</div>
 	<div class="main">
 		<h1><a href="/index" style="color:white;">MENTOR</a></h1> 
 		<div class="main-info">
@@ -53,8 +51,12 @@
 							<div class="agileits-login">
 								<form action="/login" method="post">
 								{% csrf_token %}
-									<input type="text" class="email" name="Email" placeholder="Email" required=""/>
-									<input type="password" class="password" name="Password" placeholder="Password" required=""/>
+									<input type="text" class="email" name="Email" placeholder="Email" 
+									pattern="[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,4}$"
+									title="Email id must be valid"
+									required=""/>
+									<input type="password" class="password" name="Password" placeholder="Password"
+									 required=""/>
 									<div class="wthree-text"> 
 										<ul> 
 											<li>
@@ -82,8 +84,13 @@
 									<form action="/register" method="post">
 									{% csrf_token %}
 										<input type="text" name="Username" placeholder="Username" required="">
-										<input type="text" class="email" name="Email" placeholder="Email" required=""/>
-										<input type="password" class="password" name="Password" placeholder="Password" required=""/>	
+										<input type="text" class="email" name="Email" placeholder="Email" 
+										pattern="[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,4}$"
+										title="Email id must be valid"
+										required=""/>
+										<input type="password" class="password" name="Password" 
+										pattern="(?=.*\d)(?=.*[a-z])(?=.*[A-Z]).{8,}" title="Must contain at least one number and one uppercase and lowercase letter, and at least 8 or more characters"
+										placeholder="Password" required=""/>	
 										 {% comment %} <label class="anim">
 											<input type="checkbox" class="checkbox">
 											<span> I accept the terms of use</span> 

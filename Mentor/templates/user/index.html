@@ -30,18 +30,18 @@ User Home Page
 						</div>
 					</div>
 				</div> {% endcomment %}
-				<div class="col-xs-4 col-md-4 col-lg-4 no-padding">
+				{% comment %} <div class="col-xs-4 col-md-4 col-lg-4 no-padding">
 					<div class="panel panel-blue panel-widget border-right">
 						<div class="row no-padding">
 						<a href ="#" style="color:white;">
-						{% comment %} <em class="fa fa-xl fa-comments color-orange"></em> {% endcomment %}
+					 <em class="fa fa-xl fa-comments color-orange"></em> 
 							<div class="large">52</div>
 							<div class="text-muted">Posts</div>
 						</div>
 						</a>
 					</div>
-				</div>
-				<div class="col-xs-4 col-md-4 col-lg-4 no-padding">
+				</div> {% endcomment %}
+				<div class="col-xs-6 col-md-6 col-lg-6 no-padding">
 					<div class="panel panel-orange panel-widget border-right">
 						<div class="row no-padding">
 						<a href ="" style="color:white;">
@@ -52,7 +52,7 @@ User Home Page
 						</div>
 					</div>
 				</div>
-				<div class="col-xs-4 col-md-4 col-lg-4 no-padding">
+				<div class="col-xs-6 col-md-6 col-lg-6 no-padding">
 					<div class="panel panel-red panel-widget ">
 						<div class="row no-padding">
 						<a href ="" style="color:white;">
@@ -226,10 +226,15 @@ User Home Page
 						</ul>
 					</div>
 					<div class="panel-footer">
+					<form method="post" action="/user">
+					{% csrf_token %}
 						<div class="input-group">
-							<input id="btn-input" type="text" class="form-control input-md" placeholder="Add new task" /><span class="input-group-btn">
-								<button class="btn btn-primary btn-md" id="btn-todo">Add</button>
-						</span></div>
+							<input id="btn-input" type="text" class="form-control input-md" required  name="taskname" placeholder="Add new task" /><span class="input-group-btn">
+								<input type="submit" class="btn btn-primary btn-md" id="btn-todo" value="Add"/>
+								
+						</span>
+						</div>
+						</form>
 					</div>
 				</div>
 			</div><!--/.col-->
