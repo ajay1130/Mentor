@@ -44,7 +44,6 @@ def user(request):
     # if request.user.is_anonymous:
     #     return redirect('/')
     if request.method == "POST":
-
         taskname = request.POST.get('taskname')
         # print(taskname)
         # user = User.objects.get(id=request.user.id)
@@ -54,7 +53,8 @@ def user(request):
 
 def isNullProfile(request):
     #  profiledata = Profile.objects.get(user=request.user.id)
-     print(request.user.username)
+    #  print(request.user.username)
+    pass
     #  if profiledata.status==False:
     #      return render(request,"user/userprofile.html")
 
@@ -154,6 +154,19 @@ def chat(request):
 def notifications(request):
     isNullProfile(request)
     return render(request,'user/notifications.html')
+
+@login_required(login_url='/login')
+def profile(request):
+    return render(request,'user/otheruserprofile.html')
+
+@login_required(login_url='/login')
+def followers(request):
+    return render(request,'user/followers.html')
+
+
+@login_required(login_url='/login')
+def following(request):
+    return render(request,'user/following.html')
 
 def loginUser(request):
      if request.method == "POST":

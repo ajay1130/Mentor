@@ -1,0 +1,68 @@
+
+{% extends 'user/base.html' %}
+{% block title %}
+User Home Page
+{% endblock title %} 
+ {% block style%}
+<link href="static/user/css/profile.css" rel="stylesheet">
+{% endblock style%} 
+{% block body %}
+<div class="col-sm-9 col-sm-offset-3 col-lg-10 col-lg-offset-2 main">
+		<div class="row">
+			<ol class="breadcrumb">
+				<li><a href="/user">
+					<em class="fa fa-home"></em>
+				</a></li>
+				<li class="active">Dashboard</li>
+			</ol>
+		</div><!--/.row-->
+		
+		
+		<div class="row">
+			<div class="col-lg-12">
+				<h1 class="page-header">Profile</h1>
+			</div>
+		</div><!--/.row-->
+		
+        <div class="row">
+        
+        <div class="page-content page-container" id="page-content">
+    <div class="padding">
+        <div class="row container d-flex justify-content-center" >
+            <div class="col-lg-6 col-xlg-4">
+                <div class="card"  id="userprofilebody">
+                    <div class="card-body little-profile text-center">
+                        <div class="pro-img"><img src="https://res.cloudinary.com/dxfq3iotg/image/upload/v1558171376/alexandru-zdrobau-98438-unsplash_1.jpg" alt="user"></div>
+                        <h3 class="m-b-0">Nancy Morney</h3>
+                        <h4 class="text-muted">Web Developer</h6>
+                         <h5 class="text-muted">I love to work with this environment</h5>
+                        {% comment %} <ul class="list-inline soc-pro m-t-30">
+                            <li><a href="javascript:void(0)" data-abc="true"><i class="fab fa-twitter text-twitter"></i></a></li>
+                            <li><a href="javascript:void(0)" data-abc="true"><i class="fab fa-facebook-square text-facebook"></i></a></li>
+                            <li><a href="javascript:void(0)" data-abc="true"><i class="fab fa-linkedin text-linkedin"></i></a></li>
+                            <li><a href="javascript:void(0)" data-abc="true"><i class="fab fa-youtube text-youtube"></i></a></li>
+                            <li><a href="javascript:void(0)" data-abc="true"><i class="fab fa-instagram text-instagram"></i></a></li>
+                        </ul> {% endcomment %}
+                    </div>
+                    <div class="text-center bg-light">
+                        <div class="row">
+                            <div class="col-lg-6 col-md-6 p-20 b-r">
+                                <h4 class="m-b-0 font-medium">35000</h4><small>Followers</small>
+                            </div>
+                            <div class="col-lg-6 col-md-6 p-20">
+                                <h4 class="m-b-0 font-medium">180</h4><small>Following</small>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="card-body text-center"> <a href="javascript:void(0)" class="m-t-10 m-b-20 waves-effect waves-dark btn btn-success btn-md btn-rounded" data-abc="true">Follow me</a> </div>
+                </div>
+            </div>
+            
+        </div>
+    </div>
+</div>
+
+    </div>
+
+</div>
+    {% endblock body %}
