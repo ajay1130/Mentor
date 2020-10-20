@@ -104,9 +104,10 @@
 			<div class="clear"></div>
 		</div>
 		<div class="divider"></div>
-		<form role="search">
+		<form role="search" action="/searchuser" method="post">
+		{% csrf_token %}
 			<div class="form-group">
-				<input type="text" class="form-control" placeholder="Search Here...">
+				<input type="text" name="username" class="form-control" placeholder="Search User Here....">
 			</div>
 		</form>
 		<ul class="nav menu">

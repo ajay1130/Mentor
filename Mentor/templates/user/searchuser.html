@@ -1,7 +1,7 @@
 
 {% extends 'user/base.html' %}
 {% block title %}
-User Home Page
+Search User Page
 {% endblock title %} 
  {% block style%}
 <link href="static/user/css/profile.css" rel="stylesheet">
@@ -20,12 +20,18 @@ User Home Page
 		
 		<div class="row">
 			<div class="col-lg-12">
-				<h1 class="page-header">Profile</h1>
+				<h1 class="page-header">Search</h1>
 			</div>
 		</div><!--/.row-->
-		
+                        {% if msg%}
+						<div class="alert alert-danger" role="alert">{{ msg }}</div>
+						{% endif %}	
+
+                         {% if Username%}
+						{% comment %} <div class="alert alert-danger" role="alert">{{ Username }}</div> {% endcomment %}
+					
+
         <div class="row d-flex justify-content-center">
-        
         <div class="page-content page-container" id="page-content">
     <div class="padding">
         <div class="row d-flex justify-content-center" style="margin-top:-90px;position:absolute;right:0px;width:800px;padding:18px;">
@@ -63,6 +69,8 @@ User Home Page
 </div>
 
     </div>
+
+    	{% endif %}	
 
 </div>
     {% endblock body %}

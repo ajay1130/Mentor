@@ -12,7 +12,10 @@ User Home Page
 				<li class="active">Dashboard</li>
 			</ol>
 		</div><!--/.row-->
-		
+					{% if msg%}
+					<div class="alert alert-success">{{ msg }}</div>
+						{% endif %}	
+
 		<div class="row">
 			<div class="col-lg-12">
 				<h1 class="page-header">Dashboard</h1>
@@ -46,7 +49,7 @@ User Home Page
 						<div class="row no-padding">
 						<a href ="/followers" style="color:white;">
 						{% comment %} <em class="fa fa-xl fa-users color-teal"></em> {% endcomment %}
-							<div class="large">24</div>
+							<div class="large">{{ request.user.profile.followers }}</div>
 							<div class="text-muted">Followers</div>
 							</a>
 						</div>
@@ -57,7 +60,7 @@ User Home Page
 						<div class="row no-padding">
 						<a href ="/following" style="color:white;">
 						{% comment %} <em class="fa fa-xl fa-search color-red"></em> {% endcomment %}
-							<div class="large">25.66k</div>
+							<div class="large">{{ request.user.profile.following }}</div>
 							<div class="text-muted">Following</div>
 							</a>
 						</div>
@@ -169,60 +172,21 @@ User Home Page
 						<span class="pull-right clickable panel-toggle panel-button-tab-left"><em class="fa fa-toggle-up"></em></span></div>
 					<div class="panel-body">
 						<ul class="todo-list">
+						{% for task in tasks %}
 							<li class="todo-list-item">
 								<div class="checkbox">
-									<input type="checkbox" id="checkbox-1" />
-									<label for="checkbox-1">Make coffee</label>
+									{% comment %} <input type="checkbox" id="checkbox-1" /> {% endcomment %}
+									
+									<div class="pull-left action-buttons"><a href="#" data-url="updatetask/{{ task.id }}" class="edit" data-toggle="modal" data-target="#edittodomodal">
+									<em class="fa fa-edit"></em>
+								</a></div>
+									<label for="checkbox-1">{{ task }}</label>
 								</div>
-								<div class="pull-right action-buttons"><a href="#" class="trash">
+								<div class="pull-right action-buttons"><a href="#" data-url="deletetask/{{ task.id }}" class="trash" data-toggle="modal" data-target="#deletemodal">
 									<em class="fa fa-trash"></em>
 								</a></div>
 							</li>
-							<li class="todo-list-item">
-								<div class="checkbox">
-									<input type="checkbox" id="checkbox-2" />
-									<label for="checkbox-2">Check emails</label>
-								</div>
-								<div class="pull-right action-buttons"><a href="#" class="trash">
-									<em class="fa fa-trash"></em>
-								</a></div>
-							</li>
-							<li class="todo-list-item">
-								<div class="checkbox">
-									<input type="checkbox" id="checkbox-3" />
-									<label for="checkbox-3">Reply to Jane</label>
-								</div>
-								<div class="pull-right action-buttons"><a href="#" class="trash">
-									<em class="fa fa-trash"></em>
-								</a></div>
-							</li>
-							<li class="todo-list-item">
-								<div class="checkbox">
-									<input type="checkbox" id="checkbox-4" />
-									<label for="checkbox-4">Make more coffee</label>
-								</div>
-								<div class="pull-right action-buttons"><a href="#" class="trash">
-									<em class="fa fa-trash"></em>
-								</a></div>
-							</li>
-							<li class="todo-list-item">
-								<div class="checkbox">
-									<input type="checkbox" id="checkbox-5" />
-									<label for="checkbox-5">Work on the new design</label>
-								</div>
-								<div class="pull-right action-buttons"><a href="#" class="trash">
-									<em class="fa fa-trash"></em>
-								</a></div>
-							</li>
-							<li class="todo-list-item">
-								<div class="checkbox">
-									<input type="checkbox" id="checkbox-6" />
-									<label for="checkbox-6">Get feedback on design</label>
-								</div>
-								<div class="pull-right action-buttons"><a href="#" class="trash">
-									<em class="fa fa-trash"></em>
-								</a></div>
-							</li>
+							{% endfor %}
 						</ul>
 					</div>
 					<div class="panel-footer">
@@ -392,5 +356,69 @@ User Home Page
 		
 		</div> {% endcomment %}
 		</div><!--/.row-->
+
+		<div id="edittodomodal" class="modal fade" role="dialog">
+  <div class="modal-dialog">
+
+    <!-- Modal content-->
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal">&times;</button>
+        <h4 class="modal-title"> <em class="fa fa-edit"></em> Edit Your ToDoList</h4>
+      </div>
+      <div class="modal-body">
+        <form>
+  <div class="form-group">
+    {% comment %} <label for="exampleInputEmail1">Edit Your Data</label> {% endcomment %}
+    <input type="text" class="form-control" id="exampleInputEmail1" aria-describedby="emailHelp" placeholder="Enter Your ToDoList">
+    {% comment %} <small id="emailHelp" class="form-text text-muted">We'll never share your email with anyone else.</small> {% endcomment %}
+  </div>
+  <div class="modal-footer">
+    <input type="submit" class="btn btn-primary" value="Submit"/>
+	 <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+	 </div>
+	
+  </form>
+      </div>
+      {% comment %} <div class="modal-footer">
+        <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+      </div> {% endcomment %}
+    </div>
+
+  </div>
+</div>
+
+
+	<div id="deletemodal" class="modal fade" role="dialog">
+  <div class="modal-dialog">
+
+    <!-- Modal content-->
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal">&times;</button>
+        <h4 class="modal-title"> <em class="fa fa-edit"></em> Delete ToDoList</h4>
+      </div>
+      <div class="modal-body">
+        <form>
+  <div class="form-group">
+     <label>Are you sure you want to delete ?</label> 
+    {% comment %} <input type="text" class="form-control" id="exampleInputEmail1" aria-describedby="emailHelp" placeholder="Enter Your ToDoList"> {% endcomment %}
+    {% comment %} <small id="emailHelp" class="form-text text-muted">We'll never share your email with anyone else.</small> {% endcomment %}
+  </div>
+  <div class="modal-footer">
+    <input type="submit" class="btn btn-primary" value="Yes"/>
+	 <button type="button" class="btn btn-default" data-dismiss="modal">No</button>
+	 </div>
+	
+  </form>
+      </div>
+      {% comment %} <div class="modal-footer">
+        <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+      </div> {% endcomment %}
+    </div>
+
+  </div>
+</div>
+	
 	</div>	<!--/.main-->
 {% endblock body %}

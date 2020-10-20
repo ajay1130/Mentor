@@ -3,7 +3,7 @@ from django.contrib.auth.models import User
 from django.contrib import messages
 from django.contrib.auth import authenticate,login
 from datetime import datetime
-from HOME.models import Contact,Profile,ToDoListData
+from .models import *
 from django.contrib.auth import logout
 import time
 from django.contrib import messages
@@ -41,15 +41,23 @@ def contact(request):
 @login_required(login_url='/login')
 def user(request):
     isNullProfile(request)
+    user = User.objects.get(id=request.user.id)
+    tasks = ToDoListData.objects.filter(user=user)
+    context = {'tasks':tasks}
     # if request.user.is_anonymous:
     #     return redirect('/')
     if request.method == "POST":
         taskname = request.POST.get('taskname')
+        user = User.objects.get(id=request.user.id)
+        taskdata = ToDoListData(user=user,title=taskname)
+        taskdata.save()
+        context["msg"]="Your To-Do List has been updated...."
+        return render(request,'user/index.html',context)
         # print(taskname)
         # user = User.objects.get(id=request.user.id)
         # ToDoListData.objects.create(user=user,task=taskname)
 
-    return render(request,'user/index.html')
+    return render(request,'user/index.html',context)
 
 def isNullProfile(request):
     #  profiledata = Profile.objects.get(user=request.user.id)
@@ -165,8 +173,32 @@ def followers(request):
 
 
 @login_required(login_url='/login')
+def searchuser(request):
+    context={}
+    if request.method == "POST":
+        username = request.POST.get('username')
+        if User.objects.filter(username=username).exists():
+            context["Username"]=username
+            return render(request,'user/searchuser.html',context)
+        else:
+            context["msg"]="User not found...."
+            return render(request,'user/searchuser.html',context)
+        # print(username)
+    else:
+        return render(request,'user/index.html')
+
+
+@login_required(login_url='/login')
 def following(request):
     return render(request,'user/following.html')
+
+@login_required(login_url='/login') 
+def updateTask(request,uid):
+    return render(request,'user/index.html')
+
+@login_required(login_url='/login')
+def deleteTask(request,uid):
+    return render(request,'user/index.html')
 
 def loginUser(request):
      if request.method == "POST":
