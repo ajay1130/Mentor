@@ -38,9 +38,9 @@ Search User Page
             <div class="col-lg-6 col-xlg-4">
                 <div class="card"  id="userprofilebody">
                     <div class="card-body little-profile text-center">
-                        <div class="pro-img"><img src="https://res.cloudinary.com/dxfq3iotg/image/upload/v1558171376/alexandru-zdrobau-98438-unsplash_1.jpg" alt="user"></div>
-                        <h3 class="m-b-0">Nancy Morney</h3>
-                        <h4 class="text-muted">Web Developer</h6>
+                        <div class="pro-img"><img src="{{ image }}" alt="user"></div>
+                        <h3 class="m-b-0">{{ firstname |capfirst }} {{ lastname |capfirst  }}</h3>
+                        <h4 class="text-muted">{{ bio }}</h6>
                          {% comment %} <h5 class="text-muted">I love to work with this environment</h5> {% endcomment %}
                         {% comment %} <ul class="list-inline soc-pro m-t-30">
                             <li><a href="javascript:void(0)" data-abc="true"><i class="fab fa-twitter text-twitter"></i></a></li>
@@ -53,10 +53,10 @@ Search User Page
                     <div class="text-center bg-light">
                         <div class="row">
                             <div class="col-lg-6 col-md-6 p-20 b-r">
-                                <h4 class="m-b-0 font-medium">35000</h4><small>Followers</small>
+                                <h4 class="m-b-0 font-medium">{{ followers }}</h4><small>Followers</small>
                             </div>
                             <div class="col-lg-6 col-md-6 p-20">
-                                <h4 class="m-b-0 font-medium">180</h4><small>Following</small>
+                                <h4 class="m-b-0 font-medium">{{ following }}</h4><small>Following</small>
                             </div>
                         </div>
                     </div>

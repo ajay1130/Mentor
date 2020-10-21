@@ -177,12 +177,12 @@ User Home Page
 								<div class="checkbox">
 									{% comment %} <input type="checkbox" id="checkbox-1" /> {% endcomment %}
 									
-									<div class="pull-left action-buttons"><a href="#" data-url="updatetask/{{ task.id }}" class="edit" data-toggle="modal" data-target="#edittodomodal">
+									<div class="pull-left action-buttons"><a href="#" data-url="updatetask/{{ task.id }}" class="modal-data edit" data-toggle="modal" data-target="#edittodomodal" onclick="getData({{ task.id }}, '{{ task }}')">
 									<em class="fa fa-edit"></em>
 								</a></div>
 									<label for="checkbox-1">{{ task }}</label>
 								</div>
-								<div class="pull-right action-buttons"><a href="#" data-url="deletetask/{{ task.id }}" class="trash" data-toggle="modal" data-target="#deletemodal">
+								<div class="pull-right action-buttons"><a href="#" data-url="deletetask/{{ task.id }}" class="modal-data trash" data-toggle="modal" data-target="#deletemodal" onclick="getData({{ task.id }},'not available')" >
 									<em class="fa fa-trash"></em>
 								</a></div>
 							</li>
@@ -367,10 +367,12 @@ User Home Page
         <h4 class="modal-title"> <em class="fa fa-edit"></em> Edit Your ToDoList</h4>
       </div>
       <div class="modal-body">
-        <form>
+        <form action="updatetask" method="post">
+		{% csrf_token %}
   <div class="form-group">
     {% comment %} <label for="exampleInputEmail1">Edit Your Data</label> {% endcomment %}
-    <input type="text" class="form-control" id="exampleInputEmail1" aria-describedby="emailHelp" placeholder="Enter Your ToDoList">
+	<input type="hidden" name="uid" id="uid"/>
+    <input type="text" class="form-control" id="editdata" name="editdata" aria-describedby="emailHelp" placeholder="Enter Your ToDoList">
     {% comment %} <small id="emailHelp" class="form-text text-muted">We'll never share your email with anyone else.</small> {% endcomment %}
   </div>
   <div class="modal-footer">
@@ -399,18 +401,20 @@ User Home Page
         <h4 class="modal-title"> <em class="fa fa-edit"></em> Delete ToDoList</h4>
       </div>
       <div class="modal-body">
-        <form>
   <div class="form-group">
      <label>Are you sure you want to delete ?</label> 
     {% comment %} <input type="text" class="form-control" id="exampleInputEmail1" aria-describedby="emailHelp" placeholder="Enter Your ToDoList"> {% endcomment %}
     {% comment %} <small id="emailHelp" class="form-text text-muted">We'll never share your email with anyone else.</small> {% endcomment %}
   </div>
   <div class="modal-footer">
+  <form action="deletetask" method="POST">
+  {% csrf_token %}
+  <input type="hidden" name="did" id="did"/>
     <input type="submit" class="btn btn-primary" value="Yes"/>
 	 <button type="button" class="btn btn-default" data-dismiss="modal">No</button>
+	  </form>
 	 </div>
-	
-  </form>
+
       </div>
       {% comment %} <div class="modal-footer">
         <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
@@ -421,4 +425,18 @@ User Home Page
 </div>
 	
 	</div>	<!--/.main-->
+<script>
+function getData(id,task)
+{
+	if(!(task.search("not available")==-1))
+	{
+		document.getElementById('did').value=id;
+	}
+	else{
+		{% comment %} alert("it is for update"); {% endcomment %}
+		document.getElementById('uid').value=id;
+		document.getElementById('editdata').value=task;
+	}
+}
+</script>
 {% endblock body %}

@@ -25,8 +25,8 @@ urlpatterns = [
     path('followers',views.followers,name="followers"),
     path('following',views.following,name="following"),
     path('searchuser',views.searchuser,name="searchuser"),
-    path('updatetask/<str:uid>/',views.updateTask,name="updatetask"),
-    path('deletetask/<str:uid>/',views.deleteTask,name="deletetask"),
+    path('updatetask',views.updateTask,name="updatetask"),
+    path('deletetask',views.deleteTask,name="deletetask"),
     # path('account/', include('django.contrib.auth.urls')),
     
 ]+ static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)

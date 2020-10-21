@@ -1,0 +1,62 @@
+{% extends 'user/base.html' %}
+{% block title %}
+User Home Page
+{% endblock title %}
+{% block body %}
+<div class="col-sm-9 col-sm-offset-3 col-lg-10 col-lg-offset-2 main">
+		<div class="row">
+			<ol class="breadcrumb">
+				<li><a href="/user">
+					<em class="fa fa-home"></em>
+				</a></li>
+				<li class="active">Dashboard</li>
+			</ol>
+		</div><!--/.row-->
+		
+		
+		<div class="row">
+			<div class="col-lg-12">
+				<h1 class="page-header">Edit ToDoList</h1>
+			</div>
+		</div><!--/.row-->
+		
+	</div>	<!--/.main-->
+
+
+    <div id="deletemodal" class="modal fade" role="dialog">
+  <div class="modal-dialog">
+
+    <!-- Modal content-->
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal">&times;</button>
+        <h4 class="modal-title"> <em class="fa fa-edit"></em> Delete ToDoList</h4>
+      </div>
+      <div class="modal-body">
+        <form>
+  <div class="form-group">
+     <label>Are you sure you want to delete ?</label> 
+    {% comment %} <input type="text" class="form-control" id="exampleInputEmail1" aria-describedby="emailHelp" placeholder="Enter Your ToDoList"> {% endcomment %}
+    {% comment %} <small id="emailHelp" class="form-text text-muted">We'll never share your email with anyone else.</small> {% endcomment %}
+  </div>
+  <div class="modal-footer">
+    <input type="submit" class="btn btn-primary" value="Yes"/>
+	 <button type="button" class="btn btn-default" data-dismiss="modal">No</button>
+	 </div>
+	
+  </form>
+      </div>
+      {% comment %} <div class="modal-footer">
+        <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+      </div> {% endcomment %}
+    </div>
+
+  </div>
+</div>
+	
+	</div>
+
+
+
+
+{% endblock body %}

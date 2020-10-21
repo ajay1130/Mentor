@@ -51,7 +51,7 @@ def user(request):
         user = User.objects.get(id=request.user.id)
         taskdata = ToDoListData(user=user,title=taskname)
         taskdata.save()
-        context["msg"]="Your To-Do List has been updated...."
+        context["msg"]="Your data has been added to  To-Do List...."
         return render(request,'user/index.html',context)
         # print(taskname)
         # user = User.objects.get(id=request.user.id)
@@ -177,15 +177,27 @@ def searchuser(request):
     context={}
     if request.method == "POST":
         username = request.POST.get('username')
+        
         if User.objects.filter(username=username).exists():
-            context["Username"]=username
+            userdata = User.objects.get(username=username)
+            if userdata.first_name=="":
+                context["msg"]="User has not updated their profile...."
+                return render(request,'user/searchuser.html',context)
+            if userdata.profile.status==True:
+                context["following"]=userdata.profile.following
+                context["followers"]=userdata.profile.followers
+                context["image"]=userdata.profile.image.url
+                context["firstname"]=userdata.first_name
+                context["lastname"]=userdata.last_name
+                context["bio"]=userdata.profile.aboutyourself
+                context["Username"]=username
             return render(request,'user/searchuser.html',context)
         else:
             context["msg"]="User not found...."
             return render(request,'user/searchuser.html',context)
         # print(username)
     else:
-        return render(request,'user/index.html')
+        return redirect("/user")
 
 
 @login_required(login_url='/login')
@@ -193,12 +205,28 @@ def following(request):
     return render(request,'user/following.html')
 
 @login_required(login_url='/login') 
-def updateTask(request,uid):
-    return render(request,'user/index.html')
+def updateTask(request):
+    context={}
+    if request.method == "POST":
+        uid = request.POST.get('uid')
+        editdata = request.POST.get('editdata')
+        tasks = ToDoListData.objects.get(id=uid)
+        tasks.title= editdata
+        tasks.save()
+        return redirect("/user")
+        # print(uid,editdata)
+    
+    return redirect('/user')
 
 @login_required(login_url='/login')
-def deleteTask(request,uid):
-    return render(request,'user/index.html')
+def deleteTask(request):
+    if request.method == "POST":
+        did = request.POST.get('did')
+        tasks = ToDoListData.objects.get(id=did)
+        tasks.delete()
+        return redirect("/user")
+        # print(uid,editdata)
+    return redirect("/user")
 
 def loginUser(request):
      if request.method == "POST":
