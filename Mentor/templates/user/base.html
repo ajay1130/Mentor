@@ -1,3 +1,4 @@
+{% load static %}
 <!DOCTYPE html>
 <html>
 <head>
@@ -6,10 +7,10 @@
 	<title>{% block title %}
     {% endblock title %}| MENTOR</title>
 	
-	<link href="static/user/css/bootstrap.min.css" rel="stylesheet">
-	<link href="static/user/css/font-awesome.min.css" rel="stylesheet">
-	<link href="static/user/css/datepicker3.css" rel="stylesheet">
-	<link href="static/user/css/styles.css" rel="stylesheet">
+	<link href= {% static 'user/css/bootstrap.min.css' %} rel="stylesheet">
+	<link href="{% static 'user/css/font-awesome.min.css' %}" rel="stylesheet">
+	<link href="{% static 'user/css/datepicker3.css' %}" rel="stylesheet">
+	<link href="{% static 'user/css/styles.css' %}" rel="stylesheet">
 	<link href="https://fonts.googleapis.com/css?family=Montserrat:300,300i,400,400i,500,500i,600,600i,700,700i" rel="stylesheet">
 	{% block style %}
 	{% endblock style %}
@@ -31,7 +32,7 @@
 					<span class="icon-bar"></span></button>
 				<a class="navbar-brand" href="/user"><span>M</span>ENTOR</a>
 				<ul class="nav navbar-top-links navbar-right">
-					<li class="dropdown"><a class="dropdown-toggle count-info" data-toggle="dropdown" href="#">
+					{% comment %} <li class="dropdown"><a class="dropdown-toggle count-info" data-toggle="dropdown" href="#">
 						<em class="fa fa-envelope"></em><span class="label label-danger">15</span>
 					</a>
 						<ul class="dropdown-menu dropdown-messages">
@@ -40,7 +41,7 @@
 									<img alt="image" class="img-circle" src="http://placehold.it/40/30a5ff/fff">
 									</a>
 									<div class="message-body"><small class="pull-right">3 mins ago</small>
-										<a href="#"><strong>John Doe</strong> commented on <strong>your photo</strong>.</a>
+										<a href="#"><strong>John Doe</strong> messaged  <strong>hello</strong>.</a>
 									<br /><small class="text-muted">1:24 pm - 25/03/2015</small></div>
 								</div>
 							</li>
@@ -61,12 +62,12 @@
 								</a></div>
 							</li>
 						</ul>
-					</li>
+					</li> {% endcomment %}
 					<li class="dropdown"><a class="dropdown-toggle count-info" data-toggle="dropdown" href="#">
-						<em class="fa fa-bell"></em><span class="label label-info">5</span>
+						<em class="fa fa-bell"></em><span class="label label-info">{{ todayfollowers }}</span>
 					</a>
 						<ul class="dropdown-menu dropdown-alerts">
-							<li><a href="">
+							{% comment %} <li><a href="">
 								<div><em class="fa fa-envelope"></em> 1 New Message
 									<span class="pull-right text-muted small">3 mins ago</span></div>
 							</a></li>
@@ -74,16 +75,17 @@
 							<li><a href="#">
 								<div><em class="fa fa-heart"></em> 12 New Likes
 									<span class="pull-right text-muted small">4 mins ago</span></div>
-							</a></li>
-							<li class="divider"></li>
+							</a></li> {% endcomment %}
+							{% comment %} <li class="divider"></li> {% endcomment %}
 							<li><a href="#">
-								<div><em class="fa fa-user"></em> 5 New Followers
-									<span class="pull-right text-muted small">4 mins ago</span></div>
+								<div class="text-center"> 
+								<em class="fa fa-user"></em> {{ todayfollowers }} New Followers Today
+									{% comment %} <span class="pull-right text-muted small">4 mins ago</span></div> {% endcomment %}
 							</a></li>
 							<li class="divider"></li>
 							<li>
-								<div class="all-button"><a href="/notifications">
-									<em class="fa fa-inbox"></em> <strong>See All Notifications</strong>
+								<div class="all-button"><a href="/followers">
+									<em class="fa fa-inbox"></em> <strong>See All Followers</strong>
 								</a></div>
 							</li>
 						</ul>
@@ -110,14 +112,15 @@
 				<input type="text" name="username" class="form-control" placeholder="Search User Here....">
 			</div>
 		</form>
+		{% with request.resolver_match.url_name as url_name %}
 		<ul class="nav menu">
-			<li class="active"><a href="/user"><em class="fa fa-dashboard">&nbsp;</em> Dashboard</a></li>
-			<li class=""><a href="/messages"><em class="fa fa-commenting">&nbsp;</em> Messages</a></li>
+			<li class="{% if url_name|lower == 'user' %}active{% endif %}"><a href="/user"><em class="fa fa-dashboard">&nbsp;</em> Dashboard</a></li>
+			<li class="{% if url_name|lower == 'messages' %}active{% endif %}"><a href="/messages"><em class="fa fa-commenting">&nbsp;</em> Messages</a></li>
 			{% comment %} <li><a href="widgets.html"><em class="fa fa-calendar">&nbsp;</em> Widgets</a></li> {% endcomment %}
 			{% comment %} <li><a href="charts.html"><em class="fa fa-bar-chart">&nbsp;</em> Charts</a></li> {% endcomment %}
 			{% comment %} <li><a href="elements.html"><em class="fa fa-toggle-off">&nbsp;</em> UI Elements</a></li> {% endcomment %}
 			{% comment %} <li><a href="panels.html"><em class="fa fa-clone">&nbsp;</em> Alerts &amp; Panels</a></li> {% endcomment %}
-			<li class="parent "><a data-toggle="collapse" href="#sub-item-1">
+			<li class="parent {% if url_name|lower == 'userprofile' %}active{% endif %} {% if url_name|lower == 'changepassword' %}active{% endif %}"><a data-toggle="collapse" href="#sub-item-1">
 				<em class="fa fa-navicon">&nbsp;</em> Settings <span data-toggle="collapse" href="#sub-item-1" class="icon pull-right"><em class="fa fa-plus"></em></span>
 				</a>
 				<ul class="children collapse" id="sub-item-1">
@@ -132,8 +135,9 @@
 					</a></li> {% endcomment %}
 				</ul>
 			</li>
-			<li><a href="#" data-toggle="modal" data-target="#logoutmodal"><em class="fa fa-power-off">&nbsp;</em> Logout</a></li>
+			<li "{% if url_name|lower == 'logout' %}active{% endif %}"><a href="#" data-toggle="modal" data-target="#logoutmodal"><em class="fa fa-power-off">&nbsp;</em> Logout</a></li>
 		</ul>
+		{% endwith %}
 	</div><!--/.sidebar-->
 		
 	{% comment %} <div class="col-sm-9 col-sm-offset-3 col-lg-10 col-lg-offset-2 main">
@@ -552,14 +556,14 @@
   </div>
 </div>
 
-	<script src="static/user/js/jquery-1.11.1.min.js"></script>
-	<script src="static/user/js/bootstrap.min.js"></script>
-	<script src="static/user/js/chart.min.js"></script>
-	<script src="static/user/js/chart-data.js"></script>
-	<script src="static/user/js/easypiechart.js"></script>
-	<script src="static/user/js/easypiechart-data.js"></script>
-	<script src="static/user/js/bootstrap-datepicker.js"></script>
-	<script src="static/user/js/custom.js"></script>
+	<script src= {% static 'user/js/jquery-1.11.1.min.js' %}></script>
+	<script src="{% static 'user/js/bootstrap.min.js' %}"></script>
+	<script src="{% static 'user/js/chart.min.js' %}"></script>
+	<script src="{% static 'user/js/chart-data.js' %}"></script>
+	<script src="{% static 'user/js/easypiechart.js' %}"></script>
+	<script src="{% static 'user/js/easypiechart-data.js' %}"></script>
+	<script src="{% static 'user/js/bootstrap-datepicker.js' %}"></script>
+	<script src="{% static 'user/js/custom.js' %}"></script>
 	<script>
 		window.onload = function () {
 	var chart1 = document.getElementById("line-chart").getContext("2d");

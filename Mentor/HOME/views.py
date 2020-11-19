@@ -2,7 +2,7 @@ from django.shortcuts import render,HttpResponse,redirect
 from django.contrib.auth.models import User
 from django.contrib import messages
 from django.contrib.auth import authenticate,login
-from datetime import datetime
+from datetime import datetime,date
 from .models import *
 from django.contrib.auth import logout
 import time
@@ -40,10 +40,18 @@ def contact(request):
 
 @login_required(login_url='/login')
 def user(request):
-    isNullProfile(request)
+    if not isNullProfile(request):
+        return redirect("/userprofile")
     user = User.objects.get(id=request.user.id)
     tasks = ToDoListData.objects.filter(user=user)
-    context = {'tasks':tasks}
+    followingcount = FollowersandFollowing.objects.filter(username=request.user).exclude(following="").count()
+    followerscount = FollowersandFollowing.objects.filter(username=request.user).exclude(followers="").count()
+
+    todayfollowers = FollowersandFollowing.objects.filter(username=user.id,created=date.today()).exclude(followers="").count()
+    # for item in todayfollowers:
+    #     print(item.created)
+    print("hello")
+    context = {'tasks':tasks,'followerscount':followerscount,'followingcount':followingcount,'todayfollowers':todayfollowers}
     # if request.user.is_anonymous:
     #     return redirect('/')
     if request.method == "POST":
@@ -60,22 +68,49 @@ def user(request):
     return render(request,'user/index.html',context)
 
 def isNullProfile(request):
-    #  profiledata = Profile.objects.get(user=request.user.id)
-    #  print(request.user.username)
-    pass
-    #  if profiledata.status==False:
-    #      return render(request,"user/userprofile.html")
+    user = User.objects.get(id=request.user.id)
+    if user.first_name=="":
+        return False
+    return True
+
+def forgetpassword(request):
+    context={}
+    return render(request,'user/forgetpassword.html',context)
 
 @login_required(login_url='/login')
 def messagesuser(request):
-    isNullProfile(request)
-    return render(request,'user/messages.html')
+    if not isNullProfile(request):
+        return redirect("/userprofile")
+    if request.method == "POST":
+        isFollowing = request.POST.get('isFollowing')
+        id = request.POST.get('id')
+    # if 'username' in request.session:
+    #     del request.session['username']
+    user = User.objects.get(id=request.user.id)
+    todayfollowers = FollowersandFollowing.objects.filter(username=user.id,created=date.today()).exclude(followers="").count()
+    
+    followersdata = FollowersandFollowing.objects.filter(username=user.id).exclude(followers="")
+    followingdata = FollowersandFollowing.objects.filter(username=user.id).exclude(following="")
+    userdatas=[]
+    usernamedatas=[]
+    for followdata in followersdata:
+        userdatas.append(User.objects.get(username=str(followdata.followers)))
+        usernamedatas.append(str(followdata.followers))
+        # print(userdatas)
+        
+    for followdata in followingdata:
+        if followdata.following not in usernamedatas:
+            userdatas.append(User.objects.get(username=str(followdata.following)))
+
+    context = {'followersdata':userdatas,'todayfollowers':todayfollowers}
+    return render(request,'user/messages.html',context)
 
 @login_required(login_url='/login')
 def userprofile(request):
+    todayfollowers = FollowersandFollowing.objects.filter(username=request.user.id,created=date.today()).exclude(followers="").count()
+    context={'todayfollowers':todayfollowers}
     if request.method == "POST":
         # print(request.FILES)
-
         firstname = request.POST.get('fname')
         lastname = request.POST.get('lname')
         email = request.POST.get('email')
@@ -121,7 +156,7 @@ def userprofile(request):
         context['col']="alert-success"
         return render(request,'user/userprofile.html',context)
 
-    return render(request,'user/userprofile.html')
+    return render(request,'user/userprofile.html',context)
 
 def room(request,room_name):
     return render(request, 'user/chat/chatroom.html', {
@@ -132,6 +167,8 @@ def changepassword(request):
     isNullProfile(request)
     # fm = PasswordChangeForm(user=request.user)
     context={}
+    todayfollowers = FollowersandFollowing.objects.filter(username=request.user.id,created=date.today()).exclude(followers="").count()
+    context={'todayfollowers':todayfollowers}
     if request.method == "POST":
         oldpwd = request.POST.get('oldpwd')
         newpwd = request.POST.get('newpwd')
@@ -160,38 +197,105 @@ def chat(request):
 
 @login_required(login_url='/login')
 def notifications(request):
-    isNullProfile(request)
+    if not isNullProfile(request):
+        return redirect("/userprofile")
     return render(request,'user/notifications.html')
 
 @login_required(login_url='/login')
 def profile(request):
+    if not isNullProfile(request):
+        return redirect("/userprofile")
     return render(request,'user/otheruserprofile.html')
 
 @login_required(login_url='/login')
 def followers(request):
-    return render(request,'user/followers.html')
+    todayfollowers = FollowersandFollowing.objects.filter(username=request.user.id,created=date.today()).exclude(followers="").count()
+
+    if not isNullProfile(request):
+        return redirect("/userprofile")
+    if request.method == "POST":
+        isFollowing = request.POST.get('isFollowing')
+        id = request.POST.get('id')
+    user = User.objects.get(id=request.user.id)
+    followersdata = FollowersandFollowing.objects.filter(username=user.id).exclude(followers="")
+    userdatas=[]
+    for followdata in followersdata:
+        userdatas.append(User.objects.get(username=str(followdata.followers)))
+        # print(userdatas)
+        
+    context = {'followersdata':userdatas,'todayfollowers':todayfollowers}
+    # print(followersdata)
+    return render(request,'user/followers.html',context)
 
 
 @login_required(login_url='/login')
 def searchuser(request):
     context={}
+    todayfollowers = FollowersandFollowing.objects.filter(username=request.user.id,created=date.today()).exclude(followers="").count()
+    context = {'todayfollowers':todayfollowers}
+    
+    if not isNullProfile(request):
+        return redirect("/userprofile")
     if request.method == "POST":
         username = request.POST.get('username')
-        
-        if User.objects.filter(username=username).exists():
+        isFollowing = request.POST.get('isFollowing')
+        addfollowers = request.POST.get('addfollowers')
+
+        if addfollowers == "True":
+            followingdata = FollowersandFollowing.objects.create(username=request.user,following=username)
+            followingdata.save()
+            userdata = User.objects.get(username=username)
+            followersdata = FollowersandFollowing.objects.create(username=userdata,followers=str(request.user))
+            followersdata.save()
+        elif addfollowers == "False":
+            followersdata = FollowersandFollowing.objects.get(username=request.user,following=username)
+            followersdata.delete()
+            userdata = User.objects.get(username=username)
+            followingdata = FollowersandFollowing.objects.get(username=userdata,followers=str(request.user))
+            followingdata.delete()
+
+
+        if User.objects.filter(username=username).exists() and not username == str(User.objects.get(id=request.user.id)):
             userdata = User.objects.get(username=username)
             if userdata.first_name=="":
                 context["msg"]="User has not updated their profile...."
                 return render(request,'user/searchuser.html',context)
             if userdata.profile.status==True:
-                context["following"]=userdata.profile.following
-                context["followers"]=userdata.profile.followers
+                # isyourfollowers = FollowersData.objects.filter(user=request.user,username=username).count()
+                # if isyourfollowers:
+                #     data = FollowersData.objects.get(user=request.user,username=username)
+                #     context["isfollowing"]=data.isFollowers
+                # else:
+                #     context["isfollowing"]=False
+                #     context['Create']='Create'
+                if FollowersandFollowing.objects.filter(username=request.user).exists():
+                    userdata = User.objects.get(username=username)
+                    # print(userdata)
+                    youfollowing = FollowersandFollowing.objects.filter(username=userdata.id).exclude(following="").count()
+                    yourfollowers = FollowersandFollowing.objects.filter(username=userdata.id).exclude(followers="").count()
+                
+                    context["following"]=youfollowing
+                    context["followers"]=yourfollowers
+                    if FollowersandFollowing.objects.filter(username=request.user,following=username).exists():
+                        context["isfollowing"]=True
+                    else:
+                        context['isfollowing']=False
+                else:
+                    context["following"]=0
+                    context["followers"]=0
+                    context['isfollowing']=False
+
                 context["image"]=userdata.profile.image.url
                 context["firstname"]=userdata.first_name
                 context["lastname"]=userdata.last_name
                 context["bio"]=userdata.profile.aboutyourself
                 context["Username"]=username
+
             return render(request,'user/searchuser.html',context)
+        elif User.objects.filter(username=username).exists() and username == str(User.objects.get(id=request.user.id)):
+            # context['msg']="same profile"
+            return redirect("/userprofile")
+
         else:
             context["msg"]="User not found...."
             return render(request,'user/searchuser.html',context)
@@ -202,7 +306,23 @@ def searchuser(request):
 
 @login_required(login_url='/login')
 def following(request):
-    return render(request,'user/following.html')
+    todayfollowers = FollowersandFollowing.objects.filter(username=request.user.id,created=date.today()).exclude(followers="").count()
+
+    if not isNullProfile(request):
+        return redirect("/userprofile")
+    if request.method == "POST":
+        isFollowing = request.POST.get('isFollowing')
+        id = request.POST.get('id')
+    user = User.objects.get(id=request.user.id)
+    followersdata = FollowersandFollowing.objects.filter(username=user.id).exclude(following="")
+    userdatas=[]
+    for followdata in followersdata:
+        userdatas.append(User.objects.get(username=str(followdata.following)))
+        
+    context = {'followingdatas':userdatas,'todayfollowers':todayfollowers}
+    return render(request,'user/following.html',context)
+   
+    
 
 @login_required(login_url='/login') 
 def updateTask(request):

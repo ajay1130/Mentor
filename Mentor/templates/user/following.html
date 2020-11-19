@@ -33,29 +33,56 @@ User Home Page
       <div class="panel" id="followers">
         <div class="panel-heading">
           <h3 class="panel-title">
-            <i class="icon md-check" aria-hidden="true"></i> Followers
+            <i class="icon md-check" aria-hidden="true"></i> Following
           </h3>
         </div>
         <div class="panel-body">
           <ul class="list-group list-group-dividered list-group-full">
+          {% for followingdata in followingdatas %}
             <li class="list-group-item">
               <div class="media">
                 <div class="media-left">
                   <a class="avatar avatar-online" href="javascript:void(0)">
-                    <img src="https://bootdey.com/img/Content/avatar/avatar1.png" alt="">
+                    <img src="{{ followingdata.profile.image.url }}" alt="">
                     <i></i>
                   </a>
                 </div>
+                
                 <div class="media-body">
                   <div class="pull-right">
-                    <button type="button" class="btn btn-info btn-sm waves-effect waves-light">Follow</button>
+                  {% comment %} {% if followingdata.isFollowers %}
+                  <form action="/following" method="post">
+                  {% csrf_token  %}
+                  <input type="hidden" name="isFollowing" value="{{ followingdata.isFollowers }}"/>
+                  <input type="hidden" name="id" value="{{ followingdata.id }}"/>
+                   <button type="submit" class="btn btn-success btn-default btn-sm waves-effect waves-light"><i class="icon md-check" aria-hidden="true"></i>Following</button>
+                    </form>
+                    {% endif %} {% endcomment %}
+                    {% comment %} {% if not followingdata.isFollowers %}
+                     <form action="/following" method="post">
+                  {% csrf_token %}
+                  <input type="hidden" name="isFollowing" value="{{ followingdata.isFollowers }}"/>
+                  <input type="hidden" name="id" value="{{ followingdata.id }}"/>
+                    <button type="submit" class="btn btn-info btn-sm waves-effect waves-light">Follow</button>
+                    </form>
+                    {% endif %} {% endcomment %}
                   </div>
-                  <div><a class="name" href="javascript:void(0)">Willard Wood</a></div>
-                  <small>@heavybutterfly920</small>
+                  <div>
+                  <a class="name" href="#" onclick="callsubmitbutton('{{ followingdata.username }}')">{{ followingdata.first_name |title  }} {{ followingdata.last_name |title  }}</a></div>
+                  <small>@{{ followingdata.username }}</small>
+
+                  <form action="/searchuser" method="post" id="{{ followingdata.username }}">
+                  {% csrf_token %}
+                    <div class="form-group">
+                      <input type="hidden" name="username" class="form-control" value="{{ followingdata.username }}">
+                    </div>
+                  </form>
                 </div>
+               
               </div>
             </li>
-            <li class="list-group-item">
+            {% endfor %}
+            {% comment %} <li class="list-group-item">
               <div class="media">
                 <div class="media-left">
                   <a class="avatar avatar-away" href="javascript:void(0)">
@@ -71,41 +98,7 @@ User Home Page
                   <small>@kingronnie24</small>
                 </div>
               </div>
-            </li>
-            <li class="list-group-item">
-              <div class="media">
-                <div class="media-left">
-                  <a class="avatar avatar-busy" href="javascript:void(0)">
-                    <img src="https://bootdey.com/img/Content/avatar/avatar1.png" alt="">
-                    <i></i>
-                  </a>
-                </div>
-                <div class="media-body">
-                  <div class="pull-right">
-                    <button type="button" class="btn btn-info btn-sm waves-effect waves-light">Follow</button>
-                  </div>
-                  <div><a class="name" href="javascript:void(0)">Gwendolyn Wheeler</a></div>
-                  <small>@perttygirl66</small>
-                </div>
-              </div>
-            </li>
-            <li class="list-group-item">
-              <div class="media">
-                <div class="media-left">
-                  <a class="avatar avatar-off" href="javascript:void(0)">
-                    <img src="https://bootdey.com/img/Content/avatar/avatar1.png" alt="">
-                    <i></i>
-                  </a>
-                </div>
-                <div class="media-body">
-                  <div class="pull-right">
-                    <button type="button" class="btn btn-info btn-sm waves-effect waves-light">Follow</button>
-                  </div>
-                  <div><a class="name" href="javascript:void(0)">Daniel Russell</a></div>
-                  <small>@danieltiger08</small>
-                </div>
-              </div>
-            </li>
+            </li> {% endcomment %}
           </ul>
         </div>
       </div>
@@ -117,4 +110,10 @@ User Home Page
     
 		
 	</div>	<!--/.main-->
+
+  <script>
+  function callsubmitbutton(userid){
+    document.getElementById(userid).submit();
+  }
+  </script>
 {% endblock body %}

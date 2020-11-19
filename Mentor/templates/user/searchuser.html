@@ -60,8 +60,29 @@ Search User Page
                             </div>
                         </div>
                     </div>
-                    <div class="card-body text-center"> <a href="javascript:void(0)" class="m-t-10 m-b-20 waves-effect waves-dark btn btn-success btn-md btn-rounded" data-abc="true">Follow</a> </div>
+                    {% if isfollowing %}
+                      <form action="/searchuser" method="post">
+                  {% csrf_token %}
+                  <input type="hidden" name="isFollowing" value="{{ isfollowing }}"/>
+                  <input type="hidden" name="username" value="{{ Username }}"/>
+                   <input type="hidden" name="addfollowers" value="False"/>
+                <div class="card-body text-center"> 
+                <input type="submit" class="m-t-10 m-b-20 waves-effect waves-dark btn btn-success btn-md btn-rounded" data-abc="true" value="Following"/>
+                 </form>
                 </div>
+
+                   {% else %}
+                     <form action="/searchuser" method="post">
+                  {% csrf_token %}
+                  <input type="hidden" name="isFollowing" value="{{ isfollowing }}"/>
+                  <input type="hidden" name="username" value="{{ Username }}"/>
+                   <input type="hidden" name="addfollowers" value="True"/>
+                         <div class="card-body text-center"> 
+                 <input type="submit" class="m-t-10 m-b-20 waves-effect waves-dark btn btn-success btn-md btn-rounded" data-abc="true" value="Follow"/>         
+                </div>
+                </form>
+                 {% endif %}
+                   </div>
             </div>
             
         </div>

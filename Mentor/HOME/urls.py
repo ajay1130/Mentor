@@ -17,7 +17,7 @@ urlpatterns = [
     path('messages',views.messagesuser,name="Messages"),
     path('userprofile',views.userprofile,name="Userprofile"),
     path('changepassword',views.changepassword,name="Changepassword"),
-    path('notifications',views.notifications,name="Notifications"),
+    # path('notifications',views.notifications,name="Notifications"),
     path('logout', views.logoutUser, name='Logout'),
     path('userchat/',views.chat,name="Chat"),
     path('userchat/<str:room_name>/',views.room,name="ChatRoom"),
@@ -27,6 +27,12 @@ urlpatterns = [
     path('searchuser',views.searchuser,name="searchuser"),
     path('updatetask',views.updateTask,name="updatetask"),
     path('deletetask',views.deleteTask,name="deletetask"),
+    path('forgetpassword',views.forgetpassword,name="forgetpassword"),
+    path('password_reset/',auth_views.PasswordResetView.as_view(),name='password_reset'),
+    path('password_reset/done/',auth_views.PasswordResetDoneView.as_view(),name='password_reset_done'),
+    path('reset/<uidb64>/<token>/',auth_views.PasswordResetConfirmView.as_view(),name='password_reset_confirm'),
+    path('reset/done/',auth_views.PasswordResetCompleteView.as_view(),name='password_reset_complete'),
+
     # path('account/', include('django.contrib.auth.urls')),
     
 ]+ static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)

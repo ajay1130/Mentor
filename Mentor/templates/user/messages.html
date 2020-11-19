@@ -1,7 +1,10 @@
 {% extends 'user/base.html' %}
 {% block title %}
-User Home Page
+User Messages
 {% endblock title %}
+ {% block style%}
+<link href="static/user/css/followers.css" rel="stylesheet">
+{% endblock style%} 
 {% block body %}
 <div class="col-sm-9 col-sm-offset-3 col-lg-10 col-lg-offset-2 main">
 		<div class="row">
@@ -20,8 +23,91 @@ User Home Page
 			</div>
 		</div><!--/.row-->
 		
+        <div class="row">
 
-		<div class="row">
+		<div class="col-md-12">
+
+        <div class="container">
+<div class="row bootstrap snippets bootdey">
+    <div class="col-md-11 col-xs-12">
+      <div class="panel" id="followers">
+        <div class="panel-heading">
+          <h3 class="panel-title">
+            <i class="icon md-check" aria-hidden="true"></i> Messages
+          </h3>
+        </div>
+        <div class="panel-body">
+          <ul class="list-group list-group-dividered list-group-full">
+          {% for followerdata in followersdata %}
+            <li class="list-group-item">
+              <div class="media">
+                <div class="media-left">
+                  <a class="avatar avatar-online" href="javascript:void(0)">
+                    <img src="{{ followerdata.profile.image.url }}" alt="">
+                    <i></i>
+                  </a>
+                </div>
+                
+                <div class="media-body">
+                  <div class="pull-right">
+				   <a href="#" onclick="callsubmitbutton('fff{{ followerdata.username }}')"><em class="fa fa-comments-o" aria-hidden="true"></em></a>
+				  <form action="/chat/getusername" method="post" id="fff{{ followerdata.username }}">
+				  {% csrf_token %}
+				  <input type="hidden" name="username" value="{{ followerdata.username }}"/>
+                  </form>
+				  {% comment %} {% if followerdata.isFollowers %}
+                  <form action="/followers" method="post">
+                  {% csrf_token %}
+                  <input type="hidden" name="isFollowing" value="{{ followerdata.isFollowers }}"/>
+                  <input type="hidden" name="id" value="{{ followerdata.id }}"/>
+                   <button type="submit" class="btn btn-success btn-default btn-sm waves-effect waves-light"><i class="icon md-check" aria-hidden="true"></i>Following</button>
+                    </form>
+                    {% endif %} {% endcomment %}
+                    {% comment %} {% if not followerdata.isFollowers %}
+                     <form action="/followers" method="post">
+                  {% csrf_token %}
+                  <input type="hidden" name="isFollowing" value="{{ followerdata.isFollowers }}"/>
+                  <input type="hidden" name="id" value="{{ followerdata.id }}"/>
+                    <button type="submit" class="btn btn-info btn-sm waves-effect waves-light">Follow</button>
+                    </form>
+                    {% endif %} {% endcomment %}
+                  </div>
+                  <div>
+                  <a class="name" href="#" onclick="callsubmitbutton('{{ followerdata.username }}')">{{ followerdata.first_name |title  }} {{ followerdata.last_name | title }}</a></div>
+                  <small>@{{ followerdata.username }}</small>
+
+                   <form action="/searchuser" method="post" id="{{ followerdata.username }}">
+                  {% csrf_token %}
+                    <div class="form-group">
+                      <input type="hidden" name="username" class="form-control" value="{{ followerdata.username }}">
+                    </div>
+                  </form>
+                </div> 
+               
+              </div>
+            </li>
+            {% endfor %}
+
+          </ul>
+        </div>
+      </div>
+    </div>
+</div>
+</div>
+        </div>
+        </div>
+    
+		
+	</div>	<!--/.main-->
+
+  <script>
+  function callsubmitbutton(userid){
+    document.getElementById(userid).submit();
+  }
+  </script>
+{% endblock body %}
+
+{% comment %} <div class="row">
 
 		<div class="col-md-12">	<div class="panel panel-default chat">
 					<div class="panel-heading">
@@ -169,6 +255,7 @@ User Home Page
 				<p class="back-link">© 2020 MENTOR. All Rights Reserved </p>
 			</div> {% endcomment %}
 		
-		</div></div><!--/.row-->
-	</div>	<!--/.main-->
-{% endblock body %}
+		<!--</div>
+		
+		
+		</div>/.row--> 

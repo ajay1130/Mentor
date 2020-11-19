@@ -22,4 +22,5 @@ admin.site.index_title = "Mentor Admin | Welcome to Admin Portal"
 urlpatterns = [
     path('admin/', admin.site.urls),
     path('',include('HOME.urls')),
+    path('chat/',include('chat.urls'))
 ]

@@ -34,11 +34,12 @@ if DEBUG:
     EMAIL_BACKEND = 'django.core.mail.backends.console.EmailBackend'
 
 
-
-
+# AUTH_USER_MODEL = 'HOME.Profile'
 # Application definition
 
 INSTALLED_APPS = [
+    'channels',
+    'chat',
     'HOME.apps.HomeConfig',
     'django.contrib.admin',
     'django.contrib.auth',
@@ -46,7 +47,7 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
-    'channels'
+   
 ]
 
 MIDDLEWARE = [
@@ -77,8 +78,17 @@ TEMPLATES = [
     },
 ]
 
-WSGI_APPLICATION = 'Mentor.wsgi.application'
+# WSGI_APPLICATION = 'Mentor.wsgi.application'
 ASGI_APPLICATION = 'Mentor.routing.application'
+
+# CHANNEL_LAYERS = {
+#     'default': {
+#         'BACKEND': 'channels_redis.core.RedisChannelLayer',
+#         'CONFIG': {
+#             "hosts": [('127.0.0.1', 6379)],
+#         },
+#     },
+# }
 
 
 # Database
@@ -90,6 +100,8 @@ DATABASES = {
         'NAME': BASE_DIR / 'db.sqlite3',
     }
 }
+
+
 
 
 # Password validation

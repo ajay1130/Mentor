@@ -49,7 +49,7 @@ User Home Page
 						<div class="row no-padding">
 						<a href ="/followers" style="color:white;">
 						{% comment %} <em class="fa fa-xl fa-users color-teal"></em> {% endcomment %}
-							<div class="large">{{ request.user.profile.followers }}</div>
+							<div class="large">{{ followerscount }}</div>
 							<div class="text-muted">Followers</div>
 							</a>
 						</div>
@@ -60,7 +60,7 @@ User Home Page
 						<div class="row no-padding">
 						<a href ="/following" style="color:white;">
 						{% comment %} <em class="fa fa-xl fa-search color-red"></em> {% endcomment %}
-							<div class="large">{{ request.user.profile.following }}</div>
+							<div class="large">{{ followingcount }}</div>
 							<div class="text-muted">Following</div>
 							</a>
 						</div>
@@ -146,11 +146,12 @@ User Home Page
 				<div class="panel panel-default">
 					<div class="panel-heading">
 						To-do List
+						{% comment %}
 						<ul class="pull-right panel-settings panel-button-tab-right">
-							<li class="dropdown"><a class="pull-right dropdown-toggle" data-toggle="dropdown" href="#">
-								<em class="fa fa-cogs"></em>
+							 <li class="dropdown"><a class="pull-right dropdown-toggle" data-toggle="dropdown" href="#">
+								<em class="fa fa-cogs"></em> {% endcomment %}
 							</a>
-								<ul class="dropdown-menu dropdown-menu-right">
+								{% comment %} <ul class="dropdown-menu dropdown-menu-right">
 									<li>
 										<ul class="dropdown-settings">
 											<li><a href="#">
@@ -169,6 +170,7 @@ User Home Page
 								</ul>
 							</li>
 						</ul>
+						 {% endcomment %}
 						<span class="pull-right clickable panel-toggle panel-button-tab-left"><em class="fa fa-toggle-up"></em></span></div>
 					<div class="panel-body">
 						<ul class="todo-list">

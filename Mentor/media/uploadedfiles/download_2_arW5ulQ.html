@@ -1,0 +1,254 @@
+
+
+<!DOCTYPE html>
+<html>
+	<head>
+		<title>Chat</title>
+		<link href="//maxcdn.bootstrapcdn.com/bootstrap/4.1.1/css/bootstrap.min.css" rel="stylesheet" id="bootstrap-css">
+<script src="//maxcdn.bootstrapcdn.com/bootstrap/4.1.1/js/bootstrap.min.js"></script>
+<script src="//cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+<!------ Include the above in your HEAD tag ---------->
+		<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css" integrity="sha384-MCw98/SFnGE8fJT3GXwEOngsV7Zt27NXFoaoApmYm81iuXoPkFOJwJ8ERdknLPMO" crossorigin="anonymous">
+		<link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.5.0/css/all.css" integrity="sha384-B4dIYHKNBt8Bc12p+WXckhzcICo0wtJAoU8YZTY5qE0Id1GSseTk6S+L3BlXeVIU" crossorigin="anonymous">
+		<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+		<link rel="stylesheet" type="text/css" href="https://cdnjs.cloudflare.com/ajax/libs/malihu-custom-scrollbar-plugin/3.1.5/jquery.mCustomScrollbar.min.css">
+		<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/malihu-custom-scrollbar-plugin/3.1.5/jquery.mCustomScrollbar.min.js"></script>
+
+	<link rel="stylesheet" href="/static/chat/chattemplate.css">
+	<script type="text/javascript" src="/static/chat/chattemplate.js"></script>
+		
+	
+	</head>
+	
+	<body>
+    <div style="text-align:center;font-size:20px;margin-top:8px;"><a href="/user" style="text-decoration:none;color:white;">Back to Home
+   
+    </a>
+    </div>
+    
+		<div class="container h-100">
+			<div class="row justify-content-center h-100">
+				
+				<div class="col-md-12 col-xl-12 chat">
+					<div class="card">
+						<div class="card-header msg_head">
+							<div class="d-flex bd-highlight">
+								<div class="img_cont">
+									<img src="/media/default.png" class="rounded-circle user_img">
+									<span class="online_icon"></span>
+								</div>
+								<div class="user_info">
+									<span>Xyz</span>
+									
+								</div>
+								<!--<div class="video_cam">
+									<span><i class="fas fa-video"></i></span>
+									<span><i class="fas fa-phone"></i></span>
+								</div>-->
+							</div>
+							
+							<div class="action_menu">
+								<ul>
+									<li><i class="fas fa-user-circle"></i> View profile</li>
+									<li><i class="fas fa-users"></i> Add to close friends</li>
+									<li><i class="fas fa-plus"></i> Add to group</li>
+									<li><i class="fas fa-ban"></i> Block</li>
+								</ul>
+							</div>
+						</div>
+						<div class="card-body msg_card_body" id="chat-log">
+
+						
+
+						
+
+						
+
+						<div class="d-flex justify-content-end mb-4 sent">
+								<div class="msg_cotainer_send">
+									<button class="btn"><i class="fa fa-download"></i> <a href="#" download>/media/uploadedfiles/MachineLearning-195693693009.docx</a></button>
+									
+								</div>
+								<div class="img_cont_msg">
+							<img src="/media/profile_pics/download_XS7T7T6.jpg" class="rounded-circle user_img_msg">
+								</div>
+							</div>
+						
+
+							
+
+						
+						
+
+						
+						
+							
+						</div>
+						<div class="card-footer">
+							<div class="input-group">
+								<div class="input-group-append">
+								 <form action="/chat/getusername" id="fileuploadform" method="post" enctype="multipart/form-data">
+								<input type="hidden" name="csrfmiddlewaretoken" value="SLVUOt86TON8cvVUZFKGQ33BBKRWw8OzwD5woKZhQ7PFa4dC3HwGmRhmqtnVnQeT">
+								<input type="file" id="fileupload" name="fileupload" style="display:none"/> 
+								<input type="hidden" name="username" value="xyz"/> 
+								<input type="hidden" name="content" value="123_FILE_UPLOAD"/> 
+							</form> 
+									<span class="input-group-text attach_btn" id="OpenImgUpload"><i class="fas fa-paperclip"></i></span>
+								</div>
+								<input type="text" id="chat-message-input" name="" class="form-control type_msg" placeholder="Type your message..."/>
+								<div class="input-group-append">
+									<span class="input-group-text send_btn" id="chat-message-submit"><i class="fas fa-location-arrow"></i></span>
+								</div>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+
+        <script src="/static/chat/reconnecting-websocket.js"></script>
+		<script>
+		$('#OpenImgUpload').click(function(){ $('#fileupload').trigger('click'); });
+		document.getElementById("fileupload").onchange = function() {
+    document.getElementById("fileuploadform").submit(); 
+};
+		</script>
+    <script>
+         var roomName = "chatroom";
+
+        var username = "ajaykori";
+
+		var reciverusername = "xyz";
+
+
+        var chatSocket = new ReconnectingWebSocket(
+            'ws://'
+            + window.location.host
+            + '/ws/chat/'
+            + roomName
+            + '/'
+        );
+        chatSocket.onmessage = function(e) {
+           var data = JSON.parse(e.data);
+            var message = data['message'];
+            var author = message['author'];
+
+            var msgListTag = document.createElement('div');
+            /* var imgdivTag = document.createElement('div');
+            imgdivTag.className="img_cont_msg";
+            var imgTag = document.createElement('img');
+            var msgcontainer = document.createElement('div');
+            msgcontainer.className ="msg_cotainer"
+            var pTag = document.createElement('p');
+            pTag.textContent = message.content;
+            imgTag.src = "https://image.shutterstock.com/image-vector/user-icon-human-person-symbol-260nw-1051033475.jpg";
+            */
+            if(author === username)
+            {
+                var msgcontainer = document.createElement('div');
+                msgcontainer.className="msg_cotainer_send";
+                msgcontainer.textContent = message.content;
+              /*  var spancontainer = document.createElement('span');
+                spancontainer.className="msg_time_send";
+                spancontainer.textContent ="8:55 AM, Today";
+                msgcontainer.appendChild(spancontainer);
+                */
+                var imgcontainer = document.createElement('div');
+                imgcontainer.className="img_cont_msg";
+                var img = document.createElement('img');
+                img.src="/media/profile_pics/download_XS7T7T6.jpg";
+                img.className="rounded-circle user_img_msg";
+                imgcontainer.appendChild(img)
+                msgListTag.className ="d-flex justify-content-end mb-4 sent";
+                msgListTag.appendChild(msgcontainer);
+                msgListTag.appendChild(imgcontainer); 
+         }
+            else
+            {
+                var msgcontainer = document.createElement('div');
+                msgcontainer.className="msg_cotainer";
+                msgcontainer.textContent = message.content;
+               /* var spancontainer = document.createElement('span');
+                spancontainer.className="msg_time";
+                spancontainer.textContent ="8:55 AM, Today";
+                msgcontainer.appendChild(spancontainer);
+                */
+                var imgcontainer = document.createElement('div');
+                imgcontainer.className="img_cont_msg";
+                var img = document.createElement('img');
+                img.src="/media/default.png";
+                img.className="rounded-circle user_img_msg";
+                imgcontainer.appendChild(img)
+                msgListTag.className ="d-flex justify-content-start mb-4 replies";
+            	msgListTag.appendChild(imgcontainer); 
+                msgListTag.appendChild(msgcontainer);
+                
+            
+            }
+
+           
+            document.querySelector("#chat-log").appendChild(msgListTag);
+			document.querySelector('#chat-log').scrollTo(500, 500)
+
+             // var message = data['message'];
+            //document.querySelector('#chat-log').value += (message.content + '\n');
+        };
+
+        
+
+        chatSocket.onclose = function(e) {
+            console.error('Chat socket closed unexpectedly');
+        }; 
+
+        document.querySelector('#chat-message-input').focus();
+		document.querySelector('#chat-log').scrollTo(500, 500)
+		
+        document.querySelector('#chat-message-input').onkeyup = function(e) {
+            if (e.keyCode === 13) {  // enter, return
+                document.querySelector('#chat-message-submit').click();
+            }
+        };
+
+        document.querySelector('#chat-message-submit').onclick = function(e) {
+            const messageInputDom = document.querySelector('#chat-message-input');
+           // alert(messageInputDom.value);
+            const message = messageInputDom.value;
+			if(message!="")
+			{
+ 			chatSocket.send(JSON.stringify({
+                'message': message,
+                'command':'new_messages',
+                'from':username,
+				'reciverusername':reciverusername
+            }));
+            messageInputDom.value = ''; 
+			}
+			/*else if(!document.getElementById("fileupload").files.length ==0){
+				chatSocket.send(JSON.stringify({
+                'message': "123456789_File_Upload",
+                'command':'upload_file',
+				'file':document.getElementById("fileupload").value,
+                'from':username,
+				'reciverusername':reciverusername
+            }));
+		
+			
+				// alert("file is selected"+document.getElementById("fileupload").value);
+			}
+				*/
+			else{
+				alert("Please enter text to send!!!");
+			}
+           
+        }; 
+
+        function fetchMessages(){
+             chatSocket.send(JSON.stringify({
+                'command':'fetch_messages'
+            }));
+
+        }
+    
+    </script>
+	</body>
+</html>

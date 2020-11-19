@@ -1,0 +1,400 @@
+
+{% load static %}
+<!DOCTYPE html>
+<html>
+	<head>
+		<title>Chat</title>
+		<link href="//maxcdn.bootstrapcdn.com/bootstrap/4.1.1/css/bootstrap.min.css" rel="stylesheet" id="bootstrap-css">
+<script src="//maxcdn.bootstrapcdn.com/bootstrap/4.1.1/js/bootstrap.min.js"></script>
+<script src="//cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+<!------ Include the above in your HEAD tag ---------->
+		<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css" integrity="sha384-MCw98/SFnGE8fJT3GXwEOngsV7Zt27NXFoaoApmYm81iuXoPkFOJwJ8ERdknLPMO" crossorigin="anonymous">
+		<link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.5.0/css/all.css" integrity="sha384-B4dIYHKNBt8Bc12p+WXckhzcICo0wtJAoU8YZTY5qE0Id1GSseTk6S+L3BlXeVIU" crossorigin="anonymous">
+		<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+		<link rel="stylesheet" type="text/css" href="https://cdnjs.cloudflare.com/ajax/libs/malihu-custom-scrollbar-plugin/3.1.5/jquery.mCustomScrollbar.min.css">
+		<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/malihu-custom-scrollbar-plugin/3.1.5/jquery.mCustomScrollbar.min.js"></script>
+
+	<link rel="stylesheet" href="{% static 'chat/chattemplate.css' %}">
+	<script type="text/javascript" src="{% static 'chat/chattemplate.js' %}"></script>
+		
+	
+	</head>
+	{% comment %} onload = "JavaScript:AutoRefresh(5000);" {% endcomment %}
+	<body>
+    <div style="text-align:center;font-size:20px;margin-top:8px;"><a href="/messages" style="text-decoration:none;color:white;">Back to Messages
+   {% comment %} <hr style="width:20%;"/> {% endcomment %}
+    </a>
+    </div>
+    {% comment %} -fluid {% endcomment %}
+		<div class="container h-100">
+			<div class="row justify-content-center h-100">
+				{% comment %} <div class="col-md-4 col-xl-3 chat"><div class="card mb-sm-3 mb-md-0 contacts_card">
+					<div class="card-header">
+						<div class="input-group">
+							<input type="text" placeholder="Search..." name="" class="form-control search">
+							<div class="input-group-prepend">
+								<span class="input-group-text search_btn"><i class="fas fa-search"></i></span>
+							</div>
+						</div>
+					</div>
+					<div class="card-body contacts_body">
+						<ui class="contacts">
+						<li class="active">
+							<div class="d-flex bd-highlight">
+								<div class="img_cont">
+									<img src="https://static.turbosquid.com/Preview/001292/481/WV/_D.jpg" class="rounded-circle user_img">
+									<span class="online_icon"></span>
+								</div>
+								<div class="user_info">
+									<span>Khalid</span>
+									<p>Kalid is online</p>
+								</div>
+							</div>
+						</li>
+						<li>
+							<div class="d-flex bd-highlight">
+								<div class="img_cont">
+									<img src="https://2.bp.blogspot.com/-8ytYF7cfPkQ/WkPe1-rtrcI/AAAAAAAAGqU/FGfTDVgkcIwmOTtjLka51vineFBExJuSACLcBGAs/s320/31.jpg" class="rounded-circle user_img">
+									<span class="online_icon offline"></span>
+								</div>
+								<div class="user_info">
+									<span>Taherah Big</span>
+									<p>Taherah left 7 mins ago</p>
+								</div>
+							</div>
+						</li>
+						
+						</ui>
+					</div>
+					<div class="card-footer"></div>
+				</div></div> {% endcomment %}
+				<div class="col-md-12 col-xl-12 chat">
+					<div class="card">
+						<div class="card-header msg_head">
+							<div class="d-flex bd-highlight">
+								<div class="img_cont">
+									<img src="{{ receiveurl}}" class="rounded-circle user_img">
+									<span class="online_icon"></span>
+								</div>
+								<div class="user_info">
+									<span>{{ displayusername | title }}</span>
+									{% comment %} <p>1767 Messages</p> {% endcomment %}
+								</div>
+								<!--<div class="video_cam">
+									<span><i class="fas fa-video"></i></span>
+									<span><i class="fas fa-phone"></i></span>
+								</div>-->
+							</div>
+							{% comment %} <span id="action_menu_btn"><i class="fas fa-ellipsis-v"></i></span> {% endcomment %}
+							<div class="action_menu">
+								<ul>
+									<li><i class="fas fa-user-circle"></i> View profile</li>
+									<li><i class="fas fa-users"></i> Add to close friends</li>
+									<li><i class="fas fa-plus"></i> Add to group</li>
+									<li><i class="fas fa-ban"></i> Block</li>
+								</ul>
+							</div>
+						</div>
+						<div class="card-body msg_card_body" id="chat-log">
+
+						{% for mdata  in messagedatas %}
+
+						{% if value|stringformat:mdata.author == value|stringformat:currentuser %}
+
+						{% if mdata.content == "123_FILE_UPLOAD"  %}
+
+						<div class="d-flex justify-content-end mb-4 sent">
+								<div class="msg_cotainer_send">
+									<button class="btn"><i class="fa fa-download"></i> <a href="{{ mdata.filedata.url }}" download>{{ mdata.filedata|cut:'uploadedfiles/' }}</a></button>
+									{% comment %} <span class="msg_time_send">8:55 AM, Today</span> {% endcomment %}
+								</div>
+								<div class="img_cont_msg">
+							<img src="{{ sendurl }}" class="rounded-circle user_img_msg">
+								</div>
+							</div>
+						{% else %}
+					<div class="d-flex justify-content-end mb-4 sent">
+								<div class="msg_cotainer_send">
+									{{ mdata.content }}
+									{% comment %} <span class="msg_time_send">8:55 AM, Today</span> {% endcomment %}
+								</div>
+								<div class="img_cont_msg">
+							<img src="{{ sendurl }}" class="rounded-circle user_img_msg">
+								</div>
+							</div>
+
+						{% endif %}
+
+							{% else %}
+
+								{% if mdata.content == "123_FILE_UPLOAD"  %}
+							 <div class="d-flex justify-content-start mb-4 replies">
+								 <div class="img_cont_msg">
+									<img src="{{ receiveurl }}" class="rounded-circle user_img_msg">
+								</div> 
+								<div class="msg_cotainer">
+								<button class="btn"><i class="fa fa-download"></i> <a href="{{ mdata.filedata.url }}" download>{{ mdata.filedata|cut:'uploadedfiles/' }}</a></button>
+									
+									{% comment %} <span class="msg_time">8:40 AM, Today</span> {% endcomment %}
+								</div>
+							</div>
+
+							{% else %}
+
+							<div class="d-flex justify-content-start mb-4 replies">
+								 <div class="img_cont_msg">
+									<img src="{{ receiveurl }}" class="rounded-circle user_img_msg">
+								</div> 
+								<div class="msg_cotainer">
+									{{ mdata.content }}
+									{% comment %} <span class="msg_time">8:40 AM, Today</span> {% endcomment %}
+								</div>
+							</div>
+
+							{% endif %}
+						
+						{% endif %}
+
+						
+						{% endfor %}
+
+						{% comment %} this is code for download {% endcomment %}
+						{% comment %} 
+						<button class="btn"><i class="fa fa-download"></i> <a href="#" download>picture.jpg</a></button> {% endcomment %}
+							{% comment %} <div class="d-flex justify-content-start mb-4 replies">
+								<div class="img_cont_msg">
+									<img src="https://static.turbosquid.com/Preview/001292/481/WV/_D.jpg" class="rounded-circle user_img_msg">
+								</div>
+								<div class="msg_cotainer">
+									Hi, how are you samim?
+									<span class="msg_time">8:40 AM, Today</span>
+								</div>
+							</div>
+							<div class="d-flex justify-content-end mb-4 sent">
+								<div class="msg_cotainer_send">
+									Hi Khalid i am good tnx how about you?
+									<span class="msg_time_send">8:55 AM, Today</span>
+								</div>
+								<div class="img_cont_msg">
+							<img src="https://static.turbosquid.com/Preview/001292/481/WV/_D.jpg" class="rounded-circle user_img_msg">
+								</div>
+							</div>
+						 {% endcomment %}
+						</div>
+						<div class="card-footer">
+							<div class="input-group">
+								<div class="input-group-append">
+								 <form action="/chat/getusername" id="fileuploadform" method="post" enctype="multipart/form-data">
+								{% csrf_token %}
+								<input type="file" id="fileupload" name="fileupload" style="display:none"/> 
+								<input type="hidden" name="username" value="{{ displayusername }}"/> 
+								<input type="hidden" name="content" value="123_FILE_UPLOAD"/> 
+							</form> 
+									<span class="input-group-text attach_btn" id="OpenImgUpload"><i class="fas fa-paperclip"></i></span>
+								</div>
+								<input type="text" id="chat-message-input" name="" class="form-control type_msg" placeholder="Type your message..."/>
+								<div class="input-group-append">
+									<span class="input-group-text send_btn" id="chat-message-submit"><i class="fas fa-location-arrow"></i></span>
+								</div>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+
+        <script src="{% static 'chat/reconnecting-websocket.js' %}"></script>
+		<script>
+		$('#OpenImgUpload').click(function(){ $('#fileupload').trigger('click'); });
+		document.getElementById("fileupload").onchange = function() {
+    document.getElementById("fileuploadform").submit(); 
+};
+		</script>
+    <script>
+         var roomName = {{ room_name }};
+
+        var username = {{ username }};
+
+		var reciverusername = {{ reciverusername }};
+
+
+        var chatSocket = new ReconnectingWebSocket(
+            'ws://'
+            + window.location.host
+            + '/ws/chat/'
+            + roomName
+            + '/'
+        );
+        chatSocket.onmessage = function(e) {
+           var data = JSON.parse(e.data);
+            var message = data['message'];
+            var author = message['author'];
+
+            var msgListTag = document.createElement('div');
+            /* var imgdivTag = document.createElement('div');
+            imgdivTag.className="img_cont_msg";
+            var imgTag = document.createElement('img');
+            var msgcontainer = document.createElement('div');
+            msgcontainer.className ="msg_cotainer"
+            var pTag = document.createElement('p');
+            pTag.textContent = message.content;
+            imgTag.src = "https://image.shutterstock.com/image-vector/user-icon-human-person-symbol-260nw-1051033475.jpg";
+            */
+            if(author === username)
+            {
+                var msgcontainer = document.createElement('div');
+                msgcontainer.className="msg_cotainer_send";
+                msgcontainer.textContent = message.content;
+              /*  var spancontainer = document.createElement('span');
+                spancontainer.className="msg_time_send";
+                spancontainer.textContent ="8:55 AM, Today";
+                msgcontainer.appendChild(spancontainer);
+                */
+                var imgcontainer = document.createElement('div');
+                imgcontainer.className="img_cont_msg";
+                var img = document.createElement('img');
+                img.src="{{ sendurl }}";
+                img.className="rounded-circle user_img_msg";
+                imgcontainer.appendChild(img)
+                msgListTag.className ="d-flex justify-content-end mb-4 sent";
+                msgListTag.appendChild(msgcontainer);
+                msgListTag.appendChild(imgcontainer); 
+         }
+            else
+            {
+                var msgcontainer = document.createElement('div');
+                msgcontainer.className="msg_cotainer";
+                msgcontainer.textContent = message.content;
+               /* var spancontainer = document.createElement('span');
+                spancontainer.className="msg_time";
+                spancontainer.textContent ="8:55 AM, Today";
+                msgcontainer.appendChild(spancontainer);
+                */
+                var imgcontainer = document.createElement('div');
+                imgcontainer.className="img_cont_msg";
+                var img = document.createElement('img');
+                img.src="{{ receiveurl }}";
+                img.className="rounded-circle user_img_msg";
+                imgcontainer.appendChild(img)
+                msgListTag.className ="d-flex justify-content-start mb-4 replies";
+            	msgListTag.appendChild(imgcontainer); 
+                msgListTag.appendChild(msgcontainer);
+                {% comment %} alert(author.profile.image.url); {% endcomment %}
+            
+            }
+
+           
+            document.querySelector("#chat-log").appendChild(msgListTag);
+			var objDiv = document.getElementById("chat-log");
+			
+			objDiv.scrollTop = objDiv.scrollHeight;
+             // var message = data['message'];
+            //document.querySelector('#chat-log').value += (message.content + '\n');
+        };
+
+        {% comment %} chatSocket.onopen = function(e){
+            fetchMessages();
+        }  {% endcomment %}
+
+        chatSocket.onclose = function(e) {
+            console.error('Chat socket closed unexpectedly');
+        }; 
+
+        document.querySelector('#chat-message-input').focus();
+		{% comment %} alert(document.getElementById('chat-log').getBoundingClientRect().width) {% endcomment %}
+		//document.querySelector('#chat-log').scrollTo(700, 700)
+		var objDiv = document.getElementById("chat-log");
+		objDiv.scrollTop = objDiv.scrollHeight;
+		//alert(objDiv.scrollHeight);
+		{% comment %} document.querySelector('#chat-log').scrollTo(document.getElementById('chat-log').getBoundingClientRect().height,document.getElementById('chat-log').getBoundingClientRect().width) {% endcomment %}
+		
+		{% comment %} document.getElementById("fileupload").onchange = function() {
+    		document.querySelector("#chat-message-submit").click(); 
+		} {% endcomment %}
+        document.querySelector('#chat-message-input').onkeyup = function(e) {
+            if (e.keyCode === 13) {  // enter, return
+                document.querySelector('#chat-message-submit').click();
+            }
+        };
+
+        document.querySelector('#chat-message-submit').onclick = function(e) {
+            const messageInputDom = document.querySelector('#chat-message-input');
+           // alert(messageInputDom.value);
+            const message = messageInputDom.value;
+			if(message!="")
+			{
+ 			chatSocket.send(JSON.stringify({
+                'message': message,
+                'command':'new_messages',
+                'from':username,
+				'reciverusername':reciverusername
+            }));
+            messageInputDom.value = ''; 
+			}
+			/*else if(!document.getElementById("fileupload").files.length ==0){
+				chatSocket.send(JSON.stringify({
+                'message': "123456789_File_Upload",
+                'command':'upload_file',
+				'file':document.getElementById("fileupload").value,
+                'from':username,
+				'reciverusername':reciverusername
+            }));
+		
+			
+				// alert("file is selected"+document.getElementById("fileupload").value);
+			}
+				*/
+			else{
+				alert("Please enter text to send!!!");
+			}
+           
+        }; 
+
+        function fetchMessages(){
+             chatSocket.send(JSON.stringify({
+                'command':'fetch_messages'
+            }));
+
+        }
+    
+    </script>
+
+	 <script type = "text/JavaScript">
+         
+            function AutoRefresh( t ) {
+               setTimeout("location.reload(true);", t);
+            }
+         
+      </script>
+	  {% comment %} <script type="text/JavaScript">
+	  $(document).ready(function(){
+
+		  setInterval(function()
+		  {
+			  $.ajax({
+				  type:'get',
+				  url:'/chat/fetchremdata',
+				 /*  'data': {
+            'content': 'xxx',
+            'csrfmiddlewaretoken': '{{ csrf_token }}',
+        }, */
+				  sucess:function(response){
+					  console.log(response);
+					  {{ fulldatas }}
+					  for (var key in response.fulldatas)
+					  {
+						console.log(response.fulldatas[key].filedata)
+					  }
+				  },
+				  error:function(response){
+					  alert("No Data Found");
+				  }
+
+			  });
+
+		  },1000);
+
+	  });
+	  </script>  {% endcomment %}
+	</body>
+</html>
