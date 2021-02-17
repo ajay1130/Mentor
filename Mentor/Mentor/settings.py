@@ -40,6 +40,7 @@ if DEBUG:
 INSTALLED_APPS = [
     'channels',
     'chat',
+    'django_extensions',
     'HOME.apps.HomeConfig',
     'django.contrib.admin',
     'django.contrib.auth',
@@ -165,3 +166,12 @@ CHANNEL_LAYERS = {
         # }
     }
 }
+
+# Smtp configuration
+
+EMAIL_BACKEND ='django.core.mail.backends.console.EmailBackend'
+EMAIL_HOST = 'smtp.gmail.com'
+EMAIL_PORT = 587
+EMAIL_USE_TLS=True
+EMAIL_HOST_USER='ajaykori5130@gmail.com'
+EMAIL_HOST_PASSWORD='ajay8530408756'

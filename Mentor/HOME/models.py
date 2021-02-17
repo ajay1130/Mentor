@@ -1,6 +1,7 @@
 from django.db import models
 from django.contrib.auth.models import User
 from datetime import datetime,date
+from django.utils import timezone
 # Create your models here.
 class Contact(models.Model):
     name = models.CharField(max_length=122)

@@ -366,7 +366,7 @@
             }
          
       </script>
-	  {% comment %} <script type="text/JavaScript">
+	  <script type="text/JavaScript">
 	  $(document).ready(function(){
 
 		  setInterval(function()
@@ -378,13 +378,23 @@
             'content': 'xxx',
             'csrfmiddlewaretoken': '{{ csrf_token }}',
         }, */
-				  sucess:function(response){
+				  success:function(response){
 					  console.log(response);
 					  {{ fulldatas }}
+					  var count=0;
 					  for (var key in response.fulldatas)
 					  {
-						console.log(response.fulldatas[key].filedata)
+						//console.log(response.fulldatas[key].filedata)
+						count++;
 					  }
+					  var elecount = $("#chat-log > div").length;
+					  //alert(elecount);
+					  //console.log(count,elecount);
+					  if(count > elecount){
+						 location.reload(); 
+					  }
+					  
+					  //location.reload();
 				  },
 				  error:function(response){
 					  alert("No Data Found");
@@ -395,6 +405,6 @@
 		  },1000);
 
 	  });
-	  </script>  {% endcomment %}
+	  </script>  
 	</body>
 </html>

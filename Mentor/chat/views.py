@@ -35,7 +35,7 @@ def tempchatroom(request):
 
 def fetchdremdata(request):
     messagesdata = Message.last_10_messages(author=request.user,rauthor=request.session['username'])
-    print(messagesdata.values())
+    # print(messagesdata.values())
     return JsonResponse({"fulldatas":list(messagesdata.values())})
 
 

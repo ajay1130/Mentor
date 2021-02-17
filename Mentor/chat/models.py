@@ -1,5 +1,6 @@
 from django.db import models
 from django.db.models import Q
+# from django.utils import timezone
 
 from django.contrib.auth import get_user_model
 
@@ -17,6 +18,7 @@ class Message(models.Model):
         return self.author.username
 
     def last_10_messages(author,rauthor):
+        # print("hello bro",timezone.now())
         rauthorusername = User.objects.get(username=rauthor)
         # Message.objects.filter(author=author,rauthor=rauthor)
         return Message.objects.filter(Q(author=author,rauthor=str(rauthor)) | Q(author=rauthorusername,rauthor=str(author))).order_by('-timestamp').reverse().all()
